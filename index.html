@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Fotografia Analógica</title>
+
+    <link rel="stylesheet" href="./frontend/CLIENTE/index/index.css">
+    <script src="./frontend/CLIENTE/index/index.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+
+<header class="cabecalho">
+    <a href="index.html" class="logo">Lumière <span>✦</span></a>
+
+    <div class="pesquisa-header" id="pesquisa-header" hidden>
+        <form id="form-pesquisa">
+            <input
+                type="search"
+                id="campo-pesquisa"
+                placeholder="Buscar câmeras, filmes e lentes..."
+                aria-label="Pesquisar produtos"
+            >
+        </form>
+    </div>
+
+    <nav class="navegacao">
+        <a href="#" class="icone-cabecalho" id="botao-pesquisa" aria-label="Abrir pesquisa" title="Pesquisar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.8" cy="10.8" r="6.8"></circle>
+                <path d="m16 16 5 5"></path>
+            </svg>
+        </a>
+
+        <a href="./frontend/CLIENTE/login/login.html" class="icone-cabecalho" id="link-conta" aria-label="Entrar" title="Entrar">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2"></path>
+            </svg>
+        </a>
+
+        <a href="#" class="icone-cabecalho" id="botao-favoritos" aria-label="Abrir favoritos" title="Favoritos" aria-expanded="false" aria-controls="painel-favoritos">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path>
+            </svg>
+        </a>
+
+        <a href="#" class="icone-cabecalho" id="botao-carrinho" aria-label="Abrir carrinho" title="Carrinho">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 9H6"></path>
+                  <circle cx="10" cy="20" r="1"></circle>
+                  <circle cx="18" cy="20" r="1"></circle>
+               </svg>
+       </a>
+    </nav>
+</header>
+     <div class="painel-carrinho" id="painel-carrinho" hidden>
+          <div class="cabecalho-carrinho">
+              <div>
+                 <span class="etiqueta">SUA SELEÇÃO</span>
+                 <h2>Meu carrinho <span>✦</span></h2>
+              </div>
+                 <button type="button" id="fechar-carrinho" class="fechar-carrinho" aria-label="Fechar carrinho">×</button>
+              </div>
+
+           <div class="itens-carrinho" id="itens-carrinho"></div>
+
+           <div class="rodape-carrinho">
+             <div class="total-carrinho">
+                 <span>Total</span>
+                 <strong id="total-carrinho">R$ 0,00</strong>
+             </div>
+                 <button type="button" id="finalizar-compra" class="botao-finalizar">FINALIZAR COMPRA<span>⟶</span></button>
+                 <p class="aviso-carrinho" id="aviso-carrinho"></p>
+             </div>
+       </div>
+
+       <div class="painel-favoritos" id="painel-favoritos" role="dialog" aria-labelledby="titulo-favoritos" hidden>
+           <div class="cabecalho-favoritos">
+               <div>
+                   <span class="etiqueta">SUA SELEÇÃO</span>
+                   <h2 id="titulo-favoritos">Meus favoritos <span>✦</span></h2>
+               </div>
+               <button type="button" id="fechar-favoritos" class="fechar-favoritos" aria-label="Fechar favoritos">×</button>
+           </div>
+           <div class="itens-favoritos" id="itens-favoritos" aria-live="polite"></div>
+           <div class="rodape-favoritos">
+               <button type="button" id="adicionar-favoritos-sacola" class="botao-finalizar" disabled>
+                   ADICIONAR TODOS À SACOLA<span>⟶</span>
+               </button>
+               <p class="aviso-favoritos-sacola" id="aviso-favoritos-sacola" role="status" aria-live="polite"></p>
+           </div>
+       </div>
+
+
+
+    <div class="barra-pesquisa" id="barra-pesquisa" hidden>
+        <form id="form-pesquisa">
+            <input
+                type="search"
+                id="campo-pesquisa"
+                placeholder="Procure câmeras, filmes e lentes..."
+                aria-label="Pesquisar produtos"
+        >
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+
+
+
+    <main class="pagina">
+
+        <aside class="menu-lateral">
+
+            <a href="/frontend/CLIENTE/cameras/cameras.html" class="atalho-lateral">
+                <img src="./img/CLIENTE/index/camera.jpg" alt="Câmeras analógicas">
+                <span>Câmeras</span>
+            </a>
+
+            <a href="/frontend/CLIENTE/filmes/filmes.html" class="atalho-lateral">
+                <img src="./img/CLIENTE/index/filme.jpg" alt="Filmes fotográficos">
+                <span>Filmes</span>
+            </a>
+
+            <a href="/frontend/CLIENTE/lentes/lentes.html" class="atalho-lateral">
+                <img src="./img/CLIENTE/index/lentes.jpg" alt="Lentes fotográficas">
+                <span>Lentes</span>
+            </a>
+
+            <span class="estrela">✦</span>
+
+        </aside>
+
+        <div class="conteudo">
+
+            <section class="destaque">
+
+                <div class="texto-destaque">
+                    <span class="etiqueta">FOTOGRAFIA ANALÓGICA</span>
+
+                    <h1>O mundo em outro enquadramento.</h1>
+
+                    <p>
+                        Câmeras, filmes e acessórios
+                        para quem vê além do digital.
+                    </p>
+
+                    <a href="#categorias" class="botao-explorar">
+                        EXPLORE <span>⟶</span>
+                    </a>
+                </div>
+
+                <div class="imagem-destaque">
+                    <img src="./img/CLIENTE/index/cameras.gif" alt="Câmera fotográfica analógica">
+                </div>
+
+            </section>
+
+            <section class="secao-categorias" id="categorias">
+
+                <div class="cabecalho-secao">
+                    <h2>Navegue por categoria</h2>
+
+                    <p>
+                        TUDO O QUE VOCÊ PRECISA<br>
+                        PARA REGISTRAR O REAL
+                    </p>
+                </div>
+
+                <div class="categorias">
+
+                    <a href="/frontend/CLIENTE/cameras/cameras.html" class="cartao-categoria cartao-cameras" id="cameras">
+                        <img src="./img/CLIENTE/index/camera.jpg" alt="Câmeras analógicas">
+
+                        <div class="conteudo-cartao">
+                            <h3>Câmeras</h3>
+                            <span>⟶</span>
+                        </div>
+                    </a>
+
+                    <a href="/frontend/CLIENTE/filmes/filmes.html" class="cartao-categoria cartao-filmes" id="filmes">
+                        <img src="./img/CLIENTE/index/filme.jpg" alt="Filmes fotográficos">
+
+                        <div class="conteudo-cartao">
+                            <h3>Filmes</h3>
+                            <span>⟶</span>
+                        </div>
+                    </a>
+
+                    <a href="/frontend/CLIENTE/lentes/lentes.html" class="cartao-categoria cartao-lentes" id="lentes">
+                        <img src="./img/CLIENTE/index/lentes.jpg" alt="Lentes fotográficas">
+
+                        <div class="conteudo-cartao">
+                            <h3>Lentes</h3>
+                            <span>⟶</span>
+                        </div>
+                    </a>
+
+                </div>
+
+            </section>
+
+            <section class="destaque-iniciante" id="iniciante">
+
+                <div class="imagem-iniciante">
+                    <img src="./img/CLIENTE/index/iniciante.jpg" alt="Fotografia em filme analógico">
+                </div>
+
+                <div class="texto-iniciante">
+                    <span class="etiqueta">PRIMEIROS PASSOS</span>
+
+                    <h2>Comece aqui! <span>✦</span></h2>
+
+                    <p>
+                        Não sabe por onde começar?<br>
+                        A gente te ajuda a escolher sua primeira câmera.
+                    </p>
+                </div>
+
+                <a href="/frontend/CLIENTE/kits/kits.html" class="botao-saiba-mais">
+                    SAIBA MAIS <span>⟶</span>
+                </a>
+
+            </section>
+
+
+            <section class="secao-servicos" id="servicos">
+
+                <div class="cabecalho-servicos">
+                    <div>
+                        <span class="etiqueta">ALÉM DA FOTOGRAFIA</span>
+                        <h2>Nossos serviços</h2>
+                    </div>
+
+                    <p>
+                        Cuidamos de cada detalhe<br>
+                        da sua experiência analógica.
+                    </p>
+                </div>
+
+                <div class="lista-servicos">
+
+                    <a href="/frontend/CLIENTE/servicos/revelacao-filmes/revelacao.html" class="cartao-servico servico-revelacao">
+                        <span class="numero-servico">01 /</span>
+
+                        <div class="icone-servico">✳</div>
+
+                        <h3>Revelação de filmes</h3>
+
+                        <p>
+                            Dê vida às suas fotografias e descubra
+                            os momentos registrados em cada filme.
+                        </p>
+
+                        <span class="link-servico">
+                            CONHEÇA <span>⟶</span>
+                        </span>
+                    </a>
+
+                    <a href="/frontend/CLIENTE/servicos/digitalizacao/digtalizacao.html" class="cartao-servico servico-digitalizacao">
+                        <span class="numero-servico">02 /</span>
+
+                        <div class="icone-servico">▧</div>
+
+                        <h3>Digitalização</h3>
+
+                        <p>
+                            Transforme seus negativos e fotografias
+                            em arquivos digitais para guardar e compartilhar.
+                        </p>
+
+                        <span class="link-servico">
+                            CONHEÇA <span>⟶</span>
+                        </span>
+                    </a>
+
+                    <a href="/frontend/CLIENTE/servicos/cuidados-cameras/manutencao.html" class="cartao-servico servico-manutencao">
+                        <span class="numero-servico">03 /</span>
+
+                        <div class="icone-servico">✦</div>
+
+                        <h3>Cuidados com câmeras</h3>
+
+                        <p>
+                            Conte com orientação para conservar
+                            seu equipamento analógico por mais tempo.
+                        </p>
+
+                        <span class="link-servico">
+                            CONHEÇA <span>⟶</span>
+                        </span>
+                    </a>
+
+                </div>
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+    <footer class="rodape" id="rodape">
+
+        <a href="index.html" class="logo">Lumière <span>✦</span></a>
+
+        <p class="frase-rodape">
+            FILME O AGORA. REVELE O QUE IMPORTA.
+        </p>
+
+        <nav class="links-rodape">
+            <a href="#rodape">Instagram</a>
+            <a href="#rodape">Sobre</a>
+            <a href="#rodape">Contato</a>
+        </nav>
+
+    </footer>
+
+</body>
+</html>

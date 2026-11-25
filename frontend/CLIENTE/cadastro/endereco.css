@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --menta: #EEFBDA;
+    --creme: #FFF1D2;
+    --rosa: #D18075;
+    --marrom: #A34D3E;
+    --azul: #0C2745;
+    --branco: #FFFCF5;
+    --vinho: #782832;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--creme);
+    color: var(--azul);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.cabecalho {
+    height: 84px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5.5%;
+    border-bottom: 1px solid rgba(120, 40, 50, 0.3);
+}
+
+.logo {
+    color: var(--vinho);
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--rosa);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+}
+
+.voltar-loja {
+    color: var(--azul);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-decoration: none;
+}
+
+.pagina-endereco {
+    width: min(940px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 48px 0 60px;
+    flex: 1;
+}
+
+.card-endereco {
+    padding: clamp(24px, 5vw, 48px);
+    border: 1px solid rgba(120, 40, 50, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 252, 245, 0.92);
+    box-shadow: 0 18px 50px rgba(12, 39, 69, 0.13);
+}
+
+.etiqueta {
+    color: var(--vinho);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.card-endereco h1 {
+    margin-top: 12px;
+    color: var(--vinho);
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(34px, 5vw, 48px);
+    font-weight: 400;
+    line-height: 1.08;
+}
+
+.descricao {
+    max-width: 580px;
+    margin: 14px 0 24px;
+    color: #48443F;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.lista-enderecos {
+    display: grid;
+    gap: 18px;
+}
+
+.cartao-endereco {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid rgba(12, 39, 69, 0.2);
+    border-radius: 9px;
+    background: #fffaf0;
+}
+
+.cartao-endereco legend {
+    padding: 0 8px;
+    color: var(--marrom);
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px;
+}
+
+.campo-endereco {
+    margin-top: 12px;
+}
+
+.campo-endereco label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--azul);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.campo-endereco input,
+.campo-endereco select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #9D8173;
+    border-radius: 7px;
+    outline: none;
+    background: var(--branco);
+    color: var(--azul);
+    font: 13px/1.6 'Montserrat', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo-endereco input,
+.campo-endereco select {
+    min-height: 46px;
+}
+
+.campo-endereco select {
+    cursor: pointer;
+}
+
+.campos-detalhados {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 16px;
+}
+
+.campo-rua-endereco {
+    grid-column: 1 / -1;
+}
+
+.campo-endereco input:focus,
+.campo-endereco select:focus {
+    border-color: var(--vinho);
+    box-shadow: 0 0 0 3px rgba(120, 40, 50, 0.1);
+}
+
+.botao-remover-endereco {
+    margin-top: 13px;
+    border: 0;
+    background: transparent;
+    color: var(--marrom);
+    font: 600 11px 'Montserrat', sans-serif;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.botao-remover-endereco[hidden] {
+    display: none;
+}
+
+.botao-adicionar,
+.botao-salvar {
+    width: 100%;
+    min-height: 50px;
+    border-radius: 26px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.botao-adicionar {
+    margin-top: 18px;
+    border: 1px solid var(--vinho);
+    background: transparent;
+    color: var(--vinho);
+}
+
+.botao-adicionar:hover:not(:disabled) {
+    background: rgba(120, 40, 50, 0.08);
+}
+
+.botao-salvar {
+    margin-top: 15px;
+    border: 0;
+    background: var(--vinho);
+    color: var(--branco);
+}
+
+.botao-salvar:hover:not(:disabled) {
+    background: var(--marrom);
+    transform: translateY(-2px);
+}
+
+.botao-adicionar:disabled,
+.botao-salvar:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.botao-salvar span {
+    margin-left: 8px;
+}
+
+.mensagem-endereco {
+    margin-top: 15px;
+    padding: 11px 13px;
+    border-radius: 7px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.mensagem-endereco.erro {
+    border: 1px solid var(--marrom);
+    background: #F8E0D0;
+    color: var(--marrom);
+}
+
+.mensagem-endereco.sucesso {
+    border: 1px solid #276749;
+    background: #E8F4EA;
+    color: #276749;
+}
+
+.lembrete-endereco {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    color: var(--azul);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.lembrete-endereco span {
+    color: var(--rosa);
+    font-size: 22px;
+}
+
+.rodape {
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--azul);
+    color: var(--branco);
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.rodape span {
+    color: var(--creme);
+    font-size: 15px;
+}
+
+@media (max-width: 520px) {
+    .cabecalho {
+        height: 72px;
+        padding: 0 5%;
+    }
+
+    .logo {
+        font-size: 31px;
+    }
+
+    .voltar-loja {
+        font-size: 8px;
+        letter-spacing: 1px;
+    }
+
+    .pagina-endereco {
+        padding: 28px 0 40px;
+    }
+
+    .card-endereco {
+        padding: 24px 18px;
+    }
+
+    .cartao-endereco {
+        padding: 16px;
+    }
+
+    .campos-detalhados {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-rua-endereco {
+        grid-column: auto;
+    }
+}

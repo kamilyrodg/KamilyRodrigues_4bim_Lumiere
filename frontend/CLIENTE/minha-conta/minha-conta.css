@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --creme: #FFF1D2;
+    --rosa: #D18075;
+    --marrom: #A34D3E;
+    --azul: #0C2745;
+    --branco: #FFFCF5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 6%;
+    background-color: var(--azul);
+    color: var(--creme);
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cabecalho {
+    min-height: 105px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 241, 210, 0.45);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.logo span {
+    color: var(--rosa);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+}
+
+.voltar-loja {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.voltar-loja:hover {
+    color: var(--rosa);
+}
+
+.pagina-conta {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 45px 0;
+}
+
+.card-conta {
+    width: min(100%, 860px);
+    padding: clamp(28px, 6vw, 58px);
+    border-radius: 18px;
+    background-color: var(--creme);
+    color: var(--azul);
+}
+
+.etiqueta {
+    display: block;
+    margin-bottom: 18px;
+    color: var(--marrom);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(34px, 6vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.descricao {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.dados-conta {
+    display: grid;
+    gap: 18px;
+    margin-top: 35px;
+}
+
+.dados-conta div {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(12, 39, 69, 0.2);
+}
+
+.campo-dados-conta label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--marrom);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.campo-dados-conta input {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid rgba(12, 39, 69, 0.35);
+    border-radius: 8px;
+    outline: none;
+    background: var(--branco);
+    color: var(--azul);
+    font: 13px/1.5 'Montserrat', sans-serif;
+}
+
+.campo-dados-conta input:focus {
+    border-color: var(--marrom);
+    box-shadow: 0 0 0 3px rgba(163, 77, 62, 0.12);
+}
+
+.botao-salvar-dados,
+.botao-adicionar-endereco {
+    width: 100%;
+    min-height: 50px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+}
+
+.botao-salvar-dados {
+    border: 0;
+    background: var(--marrom);
+    color: var(--branco);
+}
+
+.botao-salvar-dados:hover:not(:disabled) {
+    background: var(--azul);
+}
+
+.botao-salvar-dados:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.enderecos-conta {
+    margin-top: 38px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(12, 39, 69, 0.2);
+}
+
+.enderecos-conta h2 {
+    color: var(--azul);
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.descricao-enderecos {
+    margin-top: 8px;
+    color: rgba(12, 39, 69, 0.8);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.lista-enderecos-conta {
+    display: grid;
+    gap: 18px;
+    margin-top: 22px;
+}
+
+.botao-adicionar-endereco {
+    margin-top: 18px;
+    border: 1px solid var(--marrom);
+    background: transparent;
+    color: var(--marrom);
+}
+
+.botao-adicionar-endereco:hover {
+    background: rgba(163, 77, 62, 0.08);
+}
+
+.cartao-endereco-conta {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid rgba(12, 39, 69, 0.22);
+    border-radius: 12px;
+    background: rgba(255, 252, 245, 0.68);
+}
+
+.cartao-endereco-conta legend {
+    padding: 0 8px;
+    color: var(--marrom);
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+}
+
+.formulario-endereco-conta {
+    display: grid;
+    gap: 14px;
+}
+
+.campos-endereco-conta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.campo-rua-endereco {
+    grid-column: 1 / -1;
+}
+
+.campo-endereco-conta label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--marrom);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.campo-endereco-conta input,
+.campo-endereco-conta select {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid rgba(12, 39, 69, 0.35);
+    border-radius: 8px;
+    outline: none;
+    background: var(--branco);
+    color: var(--azul);
+    font: 13px/1.5 'Montserrat', sans-serif;
+}
+
+.campo-endereco-conta input:focus,
+.campo-endereco-conta select:focus {
+    border-color: var(--marrom);
+    box-shadow: 0 0 0 3px rgba(163, 77, 62, 0.12);
+}
+
+.campo-endereco-conta select {
+    cursor: pointer;
+}
+
+.botao-salvar-endereco {
+    min-height: 48px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--marrom);
+    color: var(--branco);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+}
+
+.botao-salvar-endereco:hover:not(:disabled) {
+    background: var(--azul);
+}
+
+.botao-salvar-endereco:disabled {
+    opacity: 0.65;
+    cursor: wait;
+}
+
+.mensagem-edicao-endereco {
+    color: var(--marrom);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.mensagem-edicao-endereco[hidden] {
+    display: none;
+}
+
+.mensagem-edicao-endereco.sucesso,
+.mensagem-conta.sucesso {
+    color: #276749;
+}
+
+.mensagem-edicao-endereco.erro {
+    color: var(--marrom);
+}
+
+.sem-enderecos {
+    color: var(--azul);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.sem-enderecos a {
+    color: var(--marrom);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.botao-sair {
+    width: 100%;
+    min-height: 56px;
+    margin-top: 30px;
+    border: 0;
+    border-radius: 12px;
+    background-color: var(--marrom);
+    color: var(--branco);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+}
+
+.botao-sair:hover {
+    background-color: var(--azul);
+}
+
+.mensagem-conta {
+    margin-top: 18px;
+    color: var(--marrom);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.mensagem-conta[hidden] {
+    display: none;
+}
+
+.rodape {
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 0 18px;
+    }
+
+    .cabecalho {
+        min-height: 80px;
+    }
+
+    .logo {
+        font-size: 29px;
+    }
+
+    .logo span {
+        font-size: 23px;
+    }
+
+    .voltar-loja {
+        gap: 5px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .enderecos-conta {
+        margin-top: 30px;
+        padding-top: 24px;
+    }
+
+    .enderecos-conta h2 {
+        font-size: 27px;
+    }
+
+    .cartao-endereco-conta {
+        padding: 14px;
+    }
+
+    .campos-endereco-conta {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-rua-endereco {
+        grid-column: auto;
+    }
+
+    .rodape {
+        min-height: 65px;
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+}

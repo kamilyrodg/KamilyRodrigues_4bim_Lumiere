@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta | Lumière</title>
+    <link rel="stylesheet" href="./minha-conta.css">
+    <script src="./minha-conta.js" defer></script>
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="../../../index.html?volta-conta=1" class="logo">Lumière <span>✦</span></a>
+        <a href="../../../index.html?volta-conta=1" class="voltar-loja">VOLTAR À LOJA <span>↗</span></a>
+    </header>
+
+    <main class="pagina-conta">
+        <section class="card-conta" aria-labelledby="titulo-conta">
+            <span class="etiqueta">✦ MINHA CONTA</span>
+            <h1 id="titulo-conta">Olá, <span id="nome-conta"></span>!</h1>
+            <p class="descricao">Atualize os dados associados à sua conta Lumière.</p>
+
+            <form id="form-dados-conta" class="dados-conta">
+                <div class="campo-dados-conta">
+                    <label for="campo-nome-conta">NOME COMPLETO *</label>
+                    <input id="campo-nome-conta" name="nome" type="text" maxlength="150" autocomplete="name" required>
+                </div>
+                <div class="campo-dados-conta">
+                    <label for="campo-email-conta">E-MAIL *</label>
+                    <input id="campo-email-conta" name="email" type="email" maxlength="150" autocomplete="email" required>
+                </div>
+                <div class="campo-dados-conta">
+                    <label for="campo-usuario-conta">USUÁRIO *</label>
+                    <input id="campo-usuario-conta" name="username" type="text" maxlength="50" pattern="[a-zA-Z0-9_.\-]{3,50}" autocomplete="username" required>
+                </div>
+                <p id="mensagem-dados-conta" class="mensagem-conta" role="status" aria-live="polite" hidden></p>
+                <button type="submit" id="botao-salvar-dados" class="botao-salvar-dados">SALVAR DADOS</button>
+            </form>
+
+            <section class="enderecos-conta" aria-labelledby="titulo-enderecos">
+                <h2 id="titulo-enderecos">Meus endereços</h2>
+                <p class="descricao-enderecos">
+                    Consulte e edite os endereços cadastrados na sua conta.
+                </p>
+                <div id="lista-enderecos-conta" class="lista-enderecos-conta"></div>
+                <button id="botao-adicionar-endereco" class="botao-adicionar-endereco" type="button">
+                    + ADICIONAR ENDEREÇO
+                </button>
+                <p id="mensagem-enderecos" class="mensagem-conta" role="status" aria-live="polite" hidden></p>
+            </section>
+
+            <p id="mensagem-conta" class="mensagem-conta" role="alert" aria-live="polite" hidden></p>
+            <button type="button" id="botao-sair" class="botao-sair">SAIR DA CONTA</button>
+        </section>
+    </main>
+
+    <footer class="rodape">FILME O AGORA. REVELE O QUE IMPORTA.</footer>
+</body>
+</html>

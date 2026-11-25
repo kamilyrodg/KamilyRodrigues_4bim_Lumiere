@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Lumière</title>
+    <link rel="stylesheet" href="./cadastro.css">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <a href="../../../index.html" class="logo">Lumière <span>✦</span></a>
+        <a href="../../../index.html" class="voltar-loja">VOLTAR À LOJA ↗</a>
+    </header>
+
+    <main class="pagina-cadastro">
+        <div class="fundo-fotografico">
+            <div class="frase-lateral">
+                <p>Ter você conosco<br>é um privilégio,<br>cadastre-se:</p>
+                <span>✦</span>
+            </div>
+
+            <div class="marca-lateral">
+                <span class="estrela">✦</span>
+                <h2>LUMIÈRE</h2>
+                <p>FILME O AGORA.<br>REVELE O QUE IMPORTA.</p>
+            </div>
+
+            <div class="foto-lateral foto-um"></div>
+            <div class="foto-lateral foto-dois"></div>
+        </div>
+
+        <section class="card-cadastro">
+            <span class="clipe"></span>
+
+            <div class="conteudo-card">
+                <span class="etiqueta">✦ CADASTRO</span>
+
+                <h1>É bom<br>conhecer você!</h1>
+
+                <p class="descricao">
+                    Crie sua conta e tenha acesso a uma experiência
+                    completa com produtos incríveis.
+                </p>
+
+                <form id="form-cadastro">
+                    <div class="campo">
+                        <label for="nome">NOME COMPLETO *</label>
+                        <input type="text" id="nome" name="nome" placeholder="Seu nome completo" autocomplete="name" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="email">E-MAIL *</label>
+                        <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="usuario">USUÁRIO *</label>
+                        <input type="text" id="usuario" name="usuario" placeholder="Crie um nome de usuário" autocomplete="username" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="senha">SENHA *</label>
+                        <div class="campo-senha">
+                            <input type="password" id="senha" name="senha" placeholder="Crie uma senha" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="mostrar-senha" data-alvo="senha" aria-label="Mostrar senha">◉</button>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="confirmar-senha">CONFIRME SUA SENHA *</label>
+                        <div class="campo-senha">
+                            <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Digite a senha novamente" autocomplete="new-password" minlength="8" required>
+                            <button type="button" class="mostrar-senha" data-alvo="confirmar-senha" aria-label="Mostrar confirmação de senha">◉</button>
+                        </div>
+                    </div>
+
+                    <p id="mensagem-senha"></p>
+
+                    <p id="mensagem-cadastro" class="mensagem-cadastro" role="alert" aria-live="polite" hidden></p>
+
+                    <button type="submit" class="botao-cadastrar">
+                        CADASTRAR <span>↗</span>
+                    </button>
+                </form>
+
+                <p class="link-login">
+                    Já tem uma conta? <a href="../login/login.html">Entrar</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        FILME O AGORA. REVELE O QUE IMPORTA.
+        <span>— ✦ —</span>
+    </footer>
+
+    <script>
+        document.querySelectorAll(".mostrar-senha").forEach(function (botao) {
+            botao.addEventListener("click", function () {
+                const campo = document.getElementById(botao.dataset.alvo);
+                const mostrar = campo.type === "password";
+
+                campo.type = mostrar ? "text" : "password";
+                botao.setAttribute("aria-label", mostrar ? "Ocultar senha" : "Mostrar senha");
+            });
+        });
+    </script>
+
+    <script src="./cadastro.js" defer></script>
+
+</body>
+</html>

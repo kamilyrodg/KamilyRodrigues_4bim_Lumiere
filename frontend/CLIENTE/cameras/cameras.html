@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Câmeras | Lumière</title>
+
+    <link rel="stylesheet" href="/frontend/CLIENTE/csss/style.css">
+
+    <script src="/frontend/CLIENTE/favoritos/favoritos-link.js" defer></script>
+    <script src="/frontend/CLIENTE/favoritos/favoritos-api.js" defer></script>
+    <script src="./cameras.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <a href="/index.html" class="logo">
+            Lumière <span>✦</span>
+        </a>
+
+        <nav class="navegacao" aria-label="Navegação principal">
+            <a href="/index.html">INÍCIO</a>
+            <a href="./cameras.html" class="ativo">CÂMERAS</a>
+            <a href="../filmes/filmes.html">FILMES</a>
+            <a href="../lentes/lentes.html">LENTES</a>
+            <a href="../kits/kits.html">KITS</a>
+        </nav>
+
+        <div class="acoes-cabecalho">
+
+            <a
+                href="/frontend/CLIENTE/minha-conta/minha-conta.html"
+                class="icone-cabecalho"
+                aria-label="Minha conta"
+                title="Minha conta"
+            >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+                </svg>
+            </a>
+
+            <a
+                href="/index.html?mostrarFavoritos=1"
+                class="icone-cabecalho"
+                aria-label="Favoritos"
+                title="Favoritos"
+                data-favorites-link
+            >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path>
+                </svg>
+            </a>
+
+        </div>
+
+    </header>
+
+    <main class="pagina">
+
+        <section class="apresentacao">
+
+            <div class="texto-apresentacao">
+
+                <span class="etiqueta">
+                    LUMIÈRE · EQUIPAMENTOS FOTOGRÁFICOS
+                </span>
+
+                <h1>
+                    Encontre a câmera ideal para o seu olhar.
+                </h1>
+
+                <a href="#colecao" class="botao-principal">
+                    EXPLORAR COLEÇÃO
+                    <span>↘</span>
+                </a>
+
+            </div>
+
+            <div class="imagem-apresentacao">
+
+                <img
+                    src="/img/CLIENTE/cameras/fundocameras.jpg"
+                    alt="Câmera analógica Nikon FM"
+                    onerror="this.onerror=null;this.src='/img/CLIENTE/cameras/Câmera Digital Nikon D7500.webp'"
+                >
+
+                <span class="legenda-imagem">
+                    CAPTURE O QUE MERECE SER LEMBRADO.
+                </span>
+
+            </div>
+
+        </section>
+
+        <section class="introducao" id="colecao">
+
+            <div>
+                <span class="etiqueta etiqueta-escura">
+                    ESCOLHA SEU EQUIPAMENTO
+                </span>
+
+                <h2>
+                    Uma câmera para cada olhar.
+                </h2>
+            </div>
+
+        </section>
+
+        <section class="catalogo">
+
+            <aside class="filtros">
+
+                <span class="titulo-filtro">
+                    COLEÇÃO
+                </span>
+
+                <button
+                    type="button"
+                    class="filtro ativo"
+                    data-tipo="todas"
+                    aria-pressed="true"
+                >
+                    Todas as câmeras
+                    <span>↗</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-tipo="analogica"
+                    aria-pressed="false"
+                >
+                    Analógicas
+                    <span>↗</span>
+                </button>
+
+                <button
+                    type="button"
+                    class="filtro"
+                    data-tipo="digital"
+                    aria-pressed="false"
+                >
+                    Digitais
+                    <span>↗</span>
+                </button>
+
+                <div class="nota-filtros">
+
+                    <span class="estrela">✦</span>
+
+                    <p>
+                        Cada equipamento abre uma nova
+                        possibilidade de enxergar o mundo.
+                    </p>
+
+                </div>
+
+            </aside>
+
+            <div class="produtos">
+
+                <div class="barra-produtos">
+
+                    <p id="quantidade-produtos" aria-live="polite">
+                        Carregando coleção...
+                    </p>
+
+                    <label class="pesquisa">
+                        <span aria-hidden="true">⌕</span>
+
+                        <input
+                            type="search"
+                            id="pesquisa-camera"
+                            placeholder="Buscar câmera..."
+                            aria-label="Buscar câmera pelo nome"
+                        >
+                    </label>
+
+                </div>
+
+                <div
+                    class="grade-cameras"
+                    id="grade-cameras"
+                    aria-live="polite"
+                >
+
+                    <p class="mensagem-carregamento">
+                        Preparando nossa coleção...
+                    </p>
+
+                </div>
+
+                <div
+                    class="mensagem-vazia"
+                    id="mensagem-vazia"
+                    hidden
+                >
+                    <span>✦</span>
+
+                    <h3>Nenhuma câmera encontrada.</h3>
+
+                    <p>
+                        Experimente outro nome ou escolha
+                        uma categoria diferente.
+                    </p>
+                </div>
+
+                <div
+                    class="mensagem-erro"
+                    id="mensagem-erro"
+                    hidden
+                >
+                    <h3>Não conseguimos carregar a coleção.</h3>
+
+                    <p>
+                        Confira se o servidor está funcionando
+                        e tente novamente.
+                    </p>
+
+                    <button type="button" id="tentar-novamente">
+                        TENTAR NOVAMENTE
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="faixa-final">
+
+            <div>
+                <span class="etiqueta">
+                    UM OLHAR, MIL HISTÓRIAS
+                </span>
+
+                <h2>
+                    A próxima memória começa aqui.
+                </h2>
+
+                <p>
+                    Descubra novos equipamentos e encontre
+                    aquele que acompanha a sua maneira de fotografar.
+                </p>
+            </div>
+
+            <a href="/index.html" class="botao-secundario">
+                VOLTAR AO INÍCIO
+                <span>↗</span>
+            </a>
+
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+
+        <a href="/index.html" class="logo">
+            Lumière <span>✦</span>
+        </a>
+
+        <p>
+            PARA QUEM ENXERGA ALÉM DO INSTANTE.
+        </p>
+
+        <span class="direitos">
+            © 2026 LUMIÈRE
+        </span>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar | Lumière</title>
+    <link rel="stylesheet" href="./login.css">
+    <script src="./login.js" defer></script>
+</head>
+<body>
+
+    <header class="cabecalho">
+        <a href="../../../index.html" class="logo">Lumière <span>✦</span></a>
+
+        <a href="../../../index.html" class="voltar-loja">
+            VOLTAR À LOJA <span>↗</span>
+        </a>
+    </header>
+
+    <main class="pagina-login">
+
+        <section class="painel-fotografia">
+            <div class="texto-fotografia">
+                <span class="etiqueta">LUMIÈRE ✦</span>
+
+                <h1>Seu próximo clique começa aqui.</h1>
+
+                <p>
+                    Entre na sua conta para encontrar exclusividade, autenticidade e uma experiência única.
+                </p>
+            </div>
+        </section>
+
+        <section class="painel-formulario">
+            <div class="conteudo-login">
+                <h2>Bem-vindo(a)!</h2>
+
+                <p class="subtitulo">
+                    Entre na sua conta para continuar.
+                </p>
+
+                <form class="formulario-login" id="form-login">
+
+                    
+             <div class="campo">
+                 <label for="email">Usuário ou e-mail</label>
+                 <input type="text" id="email" name="email" placeholder="Seu usuário ou e-mail" autocomplete="username" required>
+             </div>
+
+
+                    <div class="campo">
+                        <label for="senha">Senha</label>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            placeholder="Sua senha"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <a href="#" class="esqueci-senha">
+                        Esqueceu sua senha?
+                    </a>
+
+
+                     <p id="mensagem-login" class="mensagem-login" role="alert" aria-live="polite" hidden></p>
+                     <button type="submit" class="botao-entrar">ENTRAR</button>
+
+
+                </form>
+
+                <p class="cadastro">
+                    Ainda não tem uma conta?
+                    <a href="../cadastro/cadastro.html">Cadastre-se</a>
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+        FILME O AGORA. REVELE O QUE IMPORTA.
+    </footer>
+
+</body>
+</html>

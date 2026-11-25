@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kits | Lumière</title>
+
+    <link rel="stylesheet" href="./kits.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="/frontend/CLIENTE/favoritos/favoritos-link.js" defer></script>
+    <script src="/frontend/CLIENTE/favoritos/favoritos-api.js" defer></script>
+    <script src="./kits.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+
+    <header class="cabecalho">
+
+        <a href="/index.html" class="logo">
+            Lumière <span>✦</span>
+        </a>
+
+        <nav class="navegacao">
+            <a href="/index.html">INÍCIO</a>
+            <a href="../cameras/cameras.html">CÂMERAS</a>
+            <a href="../filmes/filmes.html">FILMES</a>
+            <a href="../lentes/lentes.html">LENTES</a>
+            <a href="./kits.html" class="ativo">KITS</a>
+        </nav>
+
+        <div class="acoes-cabecalho">
+
+            <a href="/frontend/CLIENTE/login/login.html" class="icone-cabecalho" aria-label="Minha conta">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+                </svg>
+            </a>
+
+            <a href="/index.html?mostrarFavoritos=1" class="icone-cabecalho" aria-label="Favoritos" data-favorites-link>
+                <svg viewBox="0 0 24 24">
+                    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"></path>
+                </svg>
+            </a>
+
+            <a href="/index.html?mostrarCarrinho=1" class="icone-cabecalho" aria-label="Carrinho">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 3h2l2.5 12h11L21 7H6"></path>
+                    <circle cx="9" cy="20" r="1"></circle>
+                    <circle cx="18" cy="20" r="1"></circle>
+                </svg>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+
+    <main>
+
+        <section class="introducao">
+
+            <span class="subtitulo">LUMIÈRE COLLECTION</span>
+
+            <h1>Kits fotográficos</h1>
+
+            <p>
+                Tudo o que você precisa para começar, explorar e aperfeiçoar
+                sua experiência no universo da fotografia.
+            </p>
+
+        </section>
+
+
+        <!-- LISTAGEM DE KITS -->
+
+        <section class="secao-kits">
+
+            <div class="cabecalho-secao">
+
+                <div>
+                    <span class="subtitulo">ESCOLHA SUA EXPERIÊNCIA</span>
+                    <h2>Nossos kits</h2>
+                </div>
+
+                <span class="quantidade-kits">06 KITS DISPONÍVEIS</span>
+
+            </div>
+
+
+            <div class="grade-kits"></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- RODAPÉ -->
+
+    <footer class="rodape">
+        <span>Lumière ✦</span>
+        <p>Enxergue o mundo por outra perspectiva.</p>
+    </footer>
+
+</body>
+
+</html>

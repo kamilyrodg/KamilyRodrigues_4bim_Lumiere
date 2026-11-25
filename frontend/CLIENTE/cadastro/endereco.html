@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seus endereços | Lumière</title>
+    <link rel="stylesheet" href="./endereco.css">
+    <script src="./endereco.js" defer></script>
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="../../../index.html" class="logo">Lumière <span>✦</span></a>
+        <a href="../../../index.html" class="voltar-loja">VOLTAR À LOJA ↗</a>
+    </header>
+
+    <main class="pagina-endereco">
+        <section class="card-endereco">
+            <span class="etiqueta">✦ QUASE LÁ</span>
+            <h1>Onde podemos<br>encontrar você?</h1>
+            <p class="descricao">
+                Cadastre pelo menos um endereço. Se quiser, você pode adicionar outros também.
+            </p>
+
+            <form id="form-enderecos" novalidate>
+                <div id="lista-enderecos" class="lista-enderecos"></div>
+
+                <button id="adicionar-endereco" class="botao-adicionar" type="button">
+                    + ADICIONAR OUTRO ENDEREÇO
+                </button>
+
+                <p id="mensagem-endereco" class="mensagem-endereco" role="alert" aria-live="polite" hidden></p>
+
+                <button id="salvar-enderecos" class="botao-salvar" type="submit">
+                    SALVAR ENDEREÇOS <span>↗</span>
+                </button>
+            </form>
+        </section> 
+    </main>
+
+    <footer class="rodape">
+        FILME O AGORA. REVELE O QUE IMPORTA.
+        <span>— ✦ —</span>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,517 @@
+
+/* CONFIGURAÇÕES GERAIS */
+
+:root {
+    --menta: #EEFBDA;
+    --creme: #FFF1D2;
+    --rosa: #D18075;
+    --marrom: #A34D3E;
+    --azul: #0C2745;
+    --branco: #FFFCF5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--branco);
+    color: var(--azul);
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* CABEÇALHO */
+
+.cabecalho {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 15px 6%;
+
+    background-color: var(--azul);
+    color: var(--creme);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.logo span {
+    color: var(--rosa);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+}
+
+.navegacao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+.navegacao a {
+    position: relative;
+    padding: 8px 0;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    transition: color 0.25s ease;
+}
+
+.navegacao a:hover,
+.navegacao a.ativo {
+    color: var(--rosa);
+}
+
+.navegacao a.ativo::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    height: 2px;
+    background-color: var(--rosa);
+}
+
+.acoes-cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.icone-cabecalho {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--creme);
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.icone-cabecalho svg {
+    width: 23px;
+    height: 23px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.icone-cabecalho:hover {
+    color: var(--rosa);
+    transform: translateY(-2px);
+}
+
+.icone-cabecalho:focus-visible,
+.navegacao a:focus-visible {
+    outline: 2px solid var(--rosa);
+    outline-offset: 5px;
+}
+
+
+/* INTRODUÇÃO */
+
+.introducao {
+    padding: 65px 8% 55px;
+    text-align: center;
+    background-color: var(--creme);
+}
+
+.subtitulo {
+    display: block;
+    margin-bottom: 12px;
+
+    color: var(--marrom);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.introducao h1 {
+    margin-bottom: 15px;
+
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+}
+
+.introducao p {
+    max-width: 570px;
+    margin: auto;
+
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--marrom);
+}
+
+
+/* SEÇÃO DOS KITS */
+
+.secao-kits {
+    padding: 65px 8% 85px;
+}
+
+.cabecalho-secao {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.cabecalho-secao h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.quantidade-kits {
+    padding-bottom: 8px;
+
+    color: var(--marrom);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+/* GRADE DE KITS */
+
+.grade-kits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 35px 25px;
+}
+
+
+/* CARD */
+
+.card-kit {
+    overflow: hidden;
+
+    background-color: var(--branco);
+    border: 1px solid rgba(12, 39, 69, 0.10);
+    border-radius: 5px;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.card-kit:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 10px 25px rgba(12, 39, 69, 0.10);
+}
+
+
+/* IMAGEM */
+
+.imagem-kit {
+    position: relative;
+    width: 100%;
+    height: 260px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    background-color: var(--menta);
+}
+
+.imagem-kit img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition: transform 0.4s ease;
+}
+
+.card-kit:hover .imagem-kit img {
+    transform: scale(1.04);
+}
+
+
+/* IDENTIFICAÇÃO DO KIT */
+
+.categoria-kit {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1;
+
+    padding: 7px 11px;
+
+    border-radius: 2px;
+
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.analogico {
+    background-color: var(--creme);
+    color: var(--marrom);
+}
+
+.digital {
+    background-color: var(--azul);
+    color: var(--creme);
+}
+
+.filmes {
+    background-color: var(--rosa);
+    color: var(--branco);
+}
+
+
+/* INFORMAÇÕES */
+
+.informacoes-kit {
+    padding: 22px 20px 25px;
+}
+
+.botao-favorito {
+    width: 100%;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 15px;
+    padding: 8px 12px;
+    border: 1px solid var(--marrom);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--marrom);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.botao-favorito > span:last-child {
+    font-size: 19px;
+    line-height: 1;
+}
+
+.botao-favorito:hover,
+.botao-favorito.ativo {
+    background-color: var(--marrom);
+    color: var(--branco);
+}
+
+.botao-favorito:focus-visible {
+    outline: 2px solid var(--marrom);
+    outline-offset: 3px;
+}
+
+.botao-comprar-kit {
+    width: 100%;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 10px 13px;
+    border: 1px solid var(--azul);
+    border-radius: 5px;
+    background: transparent;
+    color: var(--azul);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.botao-comprar-kit:hover {
+    background: var(--azul);
+    color: var(--creme);
+}
+
+.numero-kit {
+    display: block;
+    margin-bottom: 9px;
+
+    color: var(--rosa);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.informacoes-kit h3 {
+    min-height: 48px;
+    margin-bottom: 10px;
+
+    font-family: 'DM Serif Display', serif;
+    font-size: 21px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.descricao-kit {
+    min-height: 43px;
+    margin-bottom: 22px;
+
+    color: #777;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+
+/* PREÇOS */
+
+.precos-kit {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px 8px;
+
+    padding-top: 15px;
+    border-top: 1px solid rgba(12, 39, 69, 0.12);
+}
+
+.preco-original {
+    width: 100%;
+
+    color: #999;
+    font-size: 11px;
+    text-decoration: line-through;
+}
+
+.precos-kit strong {
+    color: var(--azul);
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.preco-pix {
+    color: var(--marrom);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* RODAPÉ */
+
+.rodape {
+    padding: 35px 6%;
+
+    background-color: var(--azul);
+    color: var(--creme);
+    text-align: center;
+}
+
+.rodape span {
+    font-family: 'DM Serif Display', serif;
+    font-size: 25px;
+}
+
+.rodape p {
+    margin-top: 8px;
+    color: var(--creme);
+    font-size: 10px;
+    letter-spacing: 0.5px;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 1000px) {
+
+    .grade-kits {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cabecalho {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+}
+
+@media (max-width: 650px) {
+
+    .cabecalho {
+        gap: 18px;
+        padding: 20px 5%;
+    }
+
+    .logo {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .navegacao {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .navegacao a {
+        font-size: 9px;
+    }
+
+    .acoes-cabecalho {
+        gap: 20px;
+    }
+
+    .introducao {
+        padding: 45px 6%;
+    }
+
+    .introducao h1 {
+        font-size: 36px;
+    }
+
+    .secao-kits {
+        padding: 45px 6%;
+    }
+
+    .cabecalho-secao {
+        align-items: start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .grade-kits {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .imagem-kit {
+        height: 280px;
+    }
+
+}

@@ -1,0 +1,432 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root {
+    --menta: #EEFBDA;
+    --creme: #FFF1D2;
+    --rosa: #D18075;
+    --marrom: #A34D3E;
+    --azul: #0C2745;
+    --branco: #FFFCF5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0 6%;
+    background-color: var(--azul);
+    color: var(--creme);
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cabecalho {
+    min-height: 105px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 241, 210, 0.45);
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1.2;
+}
+
+.logo span {
+    color: var(--rosa);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+}
+
+.voltar-loja {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    transition: color 0.25s ease;
+}
+
+.voltar-loja span {
+    font-size: 19px;
+}
+
+.voltar-loja:hover {
+    color: var(--rosa);
+}
+
+.pagina-login {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    min-height: 600px;
+    margin: 45px 0;
+    overflow: hidden;
+    border: 1px solid var(--creme);
+    border-radius: 18px;
+    background-color: var(--creme);
+}
+
+.painel-fotografia {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding: 65px 48px;
+    overflow: hidden;
+    background-color: #33251D;
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(12, 39, 69, 0.12),
+            rgba(12, 25, 35, 0.22)
+        ),
+        url("../../../img/CLIENTE/login/camera-login.jpg");
+    background-position: center;
+    background-size: cover;
+}
+
+.texto-fotografia {
+    position: relative;
+    z-index: 1;
+    max-width: 390px;
+}
+
+.etiqueta {
+    display: block;
+    margin-bottom: 20px;
+    color: var(--rosa);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.texto-fotografia h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 400;
+    line-height: 1.12;
+}
+
+.texto-fotografia p {
+    max-width: 350px;
+    margin-top: 22px;
+    color: var(--branco);
+    font-size: 14px;
+    line-height: 2;
+}
+
+.painel-formulario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 55px 45px;
+    background-color: var(--creme);
+    color: var(--azul);
+}
+
+.conteudo-login {
+    width: 100%;
+    max-width: 430px;
+}
+
+.conteudo-login h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 3vw, 45px);
+    font-weight: 400;
+    line-height: 1.2;
+}
+
+.subtitulo {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.formulario-login {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.campo label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.campo input {
+    width: 100%;
+    min-height: 58px;
+    padding: 0 18px;
+    border: 1px solid rgba(12, 39, 69, 0.4);
+    border-radius: 10px;
+    outline: none;
+    background-color: transparent;
+    color: var(--azul);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.campo input::placeholder {
+    color: #817D73;
+}
+
+.campo input:focus {
+    border-color: var(--marrom);
+    box-shadow: 0 0 0 3px rgba(163, 77, 62, 0.12);
+}
+
+.esqueci-senha {
+    align-self: flex-end;
+    margin-top: -17px;
+    color: var(--marrom);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.botao-entrar {
+    min-height: 60px;
+    margin-top: 55px;
+    border: none;
+    border-radius: 15px;
+    background-color: var(--marrom);
+    color: var(--branco);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.botao-entrar:hover {
+    transform: translateY(-2px);
+    background-color: var(--azul);
+}
+
+.cadastro {
+    margin-top: 28px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.cadastro a {
+    color: var(--marrom);
+    font-weight: 600;
+}
+
+.cadastro a:hover {
+    text-decoration: underline;
+}
+
+.rodape {
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    color: var(--creme);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+@media (min-width: 1400px) {
+    .pagina-login {
+        min-height: 680px;
+    }
+
+    .painel-fotografia {
+        padding: 75px 55px;
+    }
+
+    .painel-formulario {
+        padding: 65px;
+    }
+}
+
+@media (max-width: 900px) {
+    body {
+        padding: 0 4%;
+    }
+
+    .pagina-login {
+        grid-template-columns: 1fr 1fr;
+        min-height: 560px;
+        margin: 30px 0;
+    }
+
+    .painel-fotografia {
+        padding: 40px 28px;
+    }
+
+    .painel-formulario {
+        padding: 35px 25px;
+    }
+
+    .texto-fotografia h1 {
+        font-size: 36px;
+    }
+
+    .conteudo-login h2 {
+        font-size: 34px;
+    }
+
+    .formulario-login {
+        margin-top: 35px;
+    }
+
+    .botao-entrar {
+        margin-top: 35px;
+    }
+}
+
+@media (max-width: 650px) {
+    body {
+        padding: 0 18px;
+    }
+
+    .cabecalho {
+        min-height: 80px;
+    }
+
+    .logo {
+        font-size: 29px;
+    }
+
+    .logo span {
+        font-size: 23px;
+    }
+
+    .voltar-loja {
+        gap: 5px;
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .pagina-login {
+        grid-template-columns: 1fr;
+        margin: 22px 0;
+        border-radius: 14px;
+    }
+
+    .painel-fotografia {
+        min-height: 270px;
+        padding: 30px 25px;
+        background-position: center 45%;
+    }
+
+    .etiqueta {
+        margin-bottom: 13px;
+    }
+
+    .texto-fotografia h1 {
+        max-width: 320px;
+        font-size: 38px;
+    }
+
+    .texto-fotografia p {
+        max-width: 320px;
+        margin-top: 14px;
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .painel-formulario {
+        padding: 38px 25px;
+    }
+
+    .conteudo-login h2 {
+        font-size: 35px;
+    }
+
+    .subtitulo {
+        margin-top: 10px;
+    }
+
+    .formulario-login {
+        margin-top: 30px;
+    }
+
+    .campo {
+        margin-bottom: 22px;
+    }
+
+    .campo input {
+        min-height: 53px;
+    }
+
+    .botao-entrar {
+        min-height: 54px;
+        margin-top: 35px;
+    }
+
+    .cadastro {
+        margin-top: 22px;
+    }
+
+    .rodape {
+        min-height: 65px;
+        font-size: 8px;
+        letter-spacing: 2px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+
+.mensagem-login {
+    margin-top: 18px;
+    padding: 12px 15px;
+    border: 1px solid var(--marrom);
+    border-radius: 8px;
+    background-color: rgba(163, 77, 62, 0.10);
+    color: var(--marrom);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.mensagem-login[hidden] {
+    display: none;
+}

@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finalizar compra | Lumière</title>
+
+    <link rel="stylesheet" href="./finalizar-compra.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script src="./finalizar-compra.js" defer></script>
+</head>
+
+<body>
+
+    <header class="cabecalho">
+
+        <a href="../../../index.html" class="logo">
+            Lumière <span>✦</span>
+        </a>
+
+        <a class="link-voltar" href="../../../index.html">
+            Voltar à loja
+        </a>
+
+    </header>
+
+    <main class="checkout">
+
+        <div class="introducao-checkout">
+
+            <span class="etiqueta">SUA SELEÇÃO LUMIÈRE</span>
+
+            <h1>Finalizar compra</h1>
+
+            <p>
+                Confira os produtos da sacola e escolha a forma de pagamento.
+            </p>
+
+        </div>
+
+        <div class="conteudo-checkout">
+
+            <!-- RESUMO DO PEDIDO -->
+
+            <section class="painel-resumo" aria-labelledby="titulo-resumo">
+
+                <h2 id="titulo-resumo">Resumo do pedido</h2>
+
+                <div id="itens-pedido" class="itens-pedido" aria-live="polite">
+
+                    <p class="estado-checkout">
+                        Carregando sua sacola...
+                    </p>
+
+                </div>
+
+                <div class="total-pedido">
+
+                    <span>Total</span>
+
+                    <strong id="total-pedido">R$ 0,00</strong>
+
+                </div>
+
+                <a class="link-voltar-sacola" href="../../../index.html">
+                    Voltar à loja
+                </a>
+
+            </section>
+
+
+            <!-- PAGAMENTO -->
+
+            <section class="painel-pagamento" aria-labelledby="titulo-pagamento">
+
+                <h2 id="titulo-pagamento">Forma de pagamento</h2>
+
+                <p class="instrucao-pagamento">
+                    Selecione como deseja pagar.
+                </p>
+
+                <form id="form-finalizar">
+
+                    <div id="formas-pagamento" class="formas-pagamento" aria-live="polite">
+
+                        <p class="estado-checkout">
+                            Carregando formas de pagamento...
+                        </p>
+
+                    </div>
+
+
+                    <div class="detalhes-checkout">
+
+                    <!-- DADOS DO CARTÃO -->
+                    <div id="dados-cartao" class="dados-cartao" hidden>
+
+                        <div class="titulo-cartao">
+
+                            <div>
+                                <span class="etiqueta">PAGAMENTO COM CARTÃO</span>
+                                <h3>Dados do cartão</h3>
+                            </div>
+
+                            <span id="bandeira-cartao" class="bandeira-cartao">
+                                CARTÃO
+                            </span>
+
+                        </div>
+
+
+                        <div class="cartao-visual">
+
+    <div class="cartao-visual-inner">
+
+        <!-- FRENTE DO CARTÃO -->
+        <div class="cartao-frente">
+
+            <div class="cartao-topo">
+                <span>Lumière <b>✦</b></span>
+                <span id="bandeira-visual">CARD</span>
+            </div>
+
+            <div id="numero-visual" class="numero-visual">
+                •••• •••• •••• ••••
+            </div>
+
+            <div class="cartao-rodape">
+
+                <div>
+                    <small>TITULAR</small>
+                    <span id="titular-visual">NOME DO TITULAR</span>
+                </div>
+
+                <div>
+                    <small>VALIDADE</small>
+                    <span id="validade-visual">MM/AA</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- VERSO DO CARTÃO -->
+        <div class="cartao-verso">
+
+            <div class="faixa-magnetica"></div>
+
+            <div class="area-cvv">
+                <span>CVV</span>
+                <div>•••</div>
+            </div>
+
+            <small>Lumière ✦</small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+                        <div class="campo-cartao">
+
+                            <label for="numero-cartao">
+                                Número do cartão
+                            </label>
+
+                            <input
+                                type="text"
+                                id="numero-cartao"
+                                placeholder="0000 0000 0000 0000"
+                                maxlength="19"
+                                inputmode="numeric"
+                                autocomplete="cc-number"
+                            >
+
+                            <small id="erro-numero" class="erro-campo"></small>
+
+                        </div>
+
+
+                        <div class="campo-cartao">
+
+                            <label for="nome-titular">
+                                Nome do titular
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome-titular"
+                                placeholder="Nome impresso no cartão"
+                                maxlength="60"
+                                autocomplete="cc-name"
+                            >
+
+                        </div>
+
+
+                        <div class="campos-cartao-duplos">
+
+                            <div class="campo-cartao">
+
+                                <label for="validade-cartao">
+                                    Validade
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="validade-cartao"
+                                    placeholder="MM/AA"
+                                    maxlength="5"
+                                    inputmode="numeric"
+                                    autocomplete="cc-exp"
+                                    aria-describedby="erro-validade"
+                                >
+
+                                <small id="erro-validade" class="erro-campo"></small>
+
+                            </div>
+
+
+                            <div class="campo-cartao">
+
+                                <label for="cvv-cartao">
+                                    CVV
+                                </label>
+
+                                <input
+                                    type="password"
+                                    id="cvv-cartao"
+                                    placeholder="000"
+                                    maxlength="4"
+                                    inputmode="numeric"
+                                    autocomplete="cc-csc"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- PARCELAMENTO -->
+
+                        <div id="area-parcelas" class="area-parcelas" hidden>
+
+                            <div class="campo-cartao">
+
+                                <label for="parcelas-cartao">
+                                    Quantidade de parcelas
+                                </label>
+
+                                <select id="parcelas-cartao">
+                                    <option value="1">1x à vista</option>
+                                </select>
+
+                            </div>
+
+                            <p id="resumo-parcelas" class="resumo-parcelas"></p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PIX -->
+
+                    <div id="dados-pix" class="dados-pix" hidden>
+
+                        <span class="etiqueta">PAGAMENTO INSTANTÂNEO</span>
+
+                        <h3>Pagamento via PIX</h3>
+
+                        <p>
+                            Escaneie o QR Code ou copie o código para realizar
+                            o pagamento.
+                        </p>
+
+                        <div id="qrcode" class="qrcode"></div>
+
+                        <strong id="valor-pix" class="valor-pix">
+                            R$ 0,00
+                        </strong>
+
+                        <div class="codigo-pix">
+
+                            <label for="codigo-pix">
+                                Código PIX demonstrativo
+                            </label>
+
+                            <textarea
+                                id="codigo-pix"
+                                readonly
+                                rows="3"
+                            ></textarea>
+
+                            <button type="button" id="copiar-pix" class="botao-copiar">
+                                COPIAR CÓDIGO
+                            </button>
+
+                        </div>
+
+                        <p class="aviso-pix">
+                            Este QR Code é apenas ilustrativo e não realiza
+                            uma transferência PIX real.
+                        </p>
+
+                    </div>
+
+
+                    <!-- ENDEREÇO -->
+
+                    <div class="confirmacao-endereco">
+
+                        <h3 id="titulo-endereco">
+                            Endereço de entrega
+                        </h3>
+
+                        <p class="instrucao-endereco">
+                            Confirme o endereço escolhido para receber seu pedido.
+                        </p>
+
+                        <fieldset
+                            id="enderecos-entrega"
+                            class="enderecos-entrega"
+                            aria-describedby="status-endereco"
+                            aria-live="polite"
+                        >
+
+                            <legend class="texto-acessivel">
+                                Selecione o endereço de entrega
+                            </legend>
+
+                            <p class="estado-checkout">
+                                Carregando seus endereços...
+                            </p>
+
+                        </fieldset>
+
+                        <p id="status-endereco" class="status-endereco" role="status" aria-live="polite">
+                            Selecione um endereço para continuar.
+                        </p>
+
+                    </div>
+
+
+                    </div>
+
+
+                    <p id="mensagem-checkout" class="mensagem-checkout" role="alert" hidden></p>
+
+
+                    <button id="confirmar-compra" class="botao-confirmar" type="submit" disabled>
+                        CONFIRMAR COMPRA
+                    </button>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer class="rodape">
+
+        <span>Lumière <b>✦</b></span>
+
+        <p>Um novo olhar para cada instante.</p>
+
+    </footer>
+
+</body>
+
+</html>
