@@ -602,6 +602,11 @@ a {
     background: var(--vinho);
 }
 
+.botao-copiar:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
 .aviso-pix {
     margin-top: 15px !important;
     color: var(--vinho) !important;

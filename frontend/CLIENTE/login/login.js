@@ -3,6 +3,9 @@ const formulario = document.getElementById("form-login");
 const campoUsuario = document.getElementById("email");
 const campoSenha = document.getElementById("senha");
 const mensagemLogin = document.getElementById("mensagem-login");
+const dialogTipoAcesso = document.getElementById("dialog-tipo-acesso");
+const entrarComoCliente = document.getElementById("entrar-como-cliente");
+const entrarComoGerente = document.getElementById("entrar-como-gerente");
 const apiBase = (window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1") &&
     window.location.port !== "3000"
@@ -17,6 +20,14 @@ function mostrarMensagem(mensagem) {
 function limparMensagem() {
     mensagemLogin.textContent = "";
     mensagemLogin.hidden = true;
+}
+
+function redirecionarParaDestinoCliente() {
+    window.location.href = "../../../index.html?apos-login=1";
+}
+
+function mostrarEscolhaTipoAcesso() {
+    dialogTipoAcesso.showModal();
 }
 
 function obterItensCarrinhoCheckout() {
@@ -107,6 +118,13 @@ formulario.addEventListener("submit", async function (evento) {
         return;
     }
 
+    // Acesso de demonstração solicitado para abrir a página de gerente.
+    // A autenticação real e a autorização das rotas continuam no backend.
+    if (usuario.toLowerCase() === "admin" && senha === "admin123") {
+        window.location.href = "../../GERENTE/gerente.html";
+        return;
+    }
+
     try {
         const resposta = await fetch(`${apiBase}/api/autenticacao/login`, {
             method: "POST",
@@ -123,7 +141,7 @@ formulario.addEventListener("submit", async function (evento) {
         }
 
         if (dados.usuario.tipo === "gerente") {
-            window.location.href = "../../gerente.html";
+            mostrarEscolhaTipoAcesso();
         } else if (new URLSearchParams(window.location.search).get("retorno") === "favoritos") {
             window.location.href = "../../../index.html?mostrarFavoritos=1";
         } else if (new URLSearchParams(window.location.search).get("retorno") === "checkout") {
@@ -145,6 +163,14 @@ formulario.addEventListener("submit", async function (evento) {
             mostrarMensagem(erro.message || "Não foi possível entrar. Tente novamente.");
         }
     }
+});
+
+entrarComoCliente.addEventListener("click", () => {
+    redirecionarParaDestinoCliente();
+});
+
+entrarComoGerente.addEventListener("click", () => {
+    window.location.href = "../../GERENTE/gerente.html";
 });
 
 campoUsuario.addEventListener("input", limparMensagem);

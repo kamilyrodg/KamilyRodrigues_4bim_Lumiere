@@ -1,4 +1,25 @@
-DROP TABLE IF EXISTS clientes, gerentes, enderecos, categorias, produtos, filmes, caracteristicas_filme, filme_caracteristicas, caracteristicas_lente, lente_caracteristicas, kits_produto, servicos, carrinhos, itens_carrinho, favoritos, formas_pagamento, pedidos, itens_pedido;
+DROP TABLE IF EXISTS
+    sessoes,
+    clientes,
+    gerentes,
+    enderecos,
+    categorias,
+    produtos,
+    filmes,
+    caracteristicas_filme,
+    filme_caracteristicas,
+    caracteristicas_lente,
+    lente_caracteristicas,
+    kits_produto,
+    servicos,
+    carrinhos,
+    itens_carrinho,
+    favoritos,
+    formas_pagamento,
+    pedidos,
+    itens_pedido,
+    usuarios
+CASCADE;
 
 CREATE TABLE IF NOT EXISTS usuarios (
     id SERIAL PRIMARY KEY,
@@ -130,8 +151,20 @@ CREATE TABLE pedidos (
     forma_pagamento_id INTEGER NOT NULL
         REFERENCES formas_pagamento(id),
     data_pedido TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    status_pedido VARCHAR(30) NOT NULL DEFAULT 'recebido'
+        CHECK (status_pedido IN (
+            'recebido',
+            'confirmado',
+            'em_preparacao',
+            'enviado',
+            'cancelado'
+        )),
+
     valor_total NUMERIC(10,2) NOT NULL DEFAULT 0
-        CHECK (valor_total >= 0)
+        CHECK (valor_total >= 0),
+
+    status_pagamento VARCHAR(30) NOT NULL DEFAULT 'aguardando_pagamento'
 );
 
 CREATE TABLE itens_pedido (
@@ -149,7 +182,6 @@ CREATE TABLE itens_pedido (
         (produto_id IS NULL AND servico_id IS NOT NULL)
     )
 );
-
 
 INSERT INTO categorias VALUES
 (1, 'Câmeras Analógicas'),

@@ -119,12 +119,31 @@ function atualizarBotaoCompra() {
         'input[name="formaPagamento"]:checked'
     ));
 
+    const tipoCartao = obterTipoCartaoSelecionado();
+
+    let cartaoValido = true;
+
+    if (tipoCartao === 'credito' || tipoCartao === 'debito') {
+        const numero = numeroCartao.value.replace(/\D/g, '');
+
+        cartaoValido =
+            validarNumeroCartao(numero) &&
+            nomeTitular.value.trim().length > 0 &&
+            validarValidade() &&
+            /^\d{3,4}$/.test(cvvCartao.value);
+
+        if (tipoCartao === 'credito') {
+            cartaoValido = cartaoValido && Boolean(parcelasCartao.value);
+        }
+    }
+
     confirmarCompra.disabled =
         !pedidoCarregado ||
         !formasPagamentoCarregadas ||
         !enderecosCarregados ||
         !temEndereco ||
         !temFormaPagamento ||
+        !cartaoValido ||
         enviandoPedido ||
         pedidoConcluido;
 }
@@ -267,9 +286,17 @@ numeroCartao.addEventListener('input', () => {
         .slice(0, 16);
 
     atualizarCartaoVisual();
+    atualizarBotaoCompra();
 });
 
-nomeTitular.addEventListener('input', atualizarCartaoVisual);
+nomeTitular.addEventListener('input', () => {
+    atualizarCartaoVisual();
+    atualizarBotaoCompra();
+});
+
+cvvCartao.addEventListener('input', atualizarBotaoCompra);
+
+parcelasCartao.addEventListener('change', atualizarBotaoCompra);
 
 
 // Animação do cartão ao acessar o CVV
@@ -299,6 +326,7 @@ validadeCartao.addEventListener('input', () => {
     erroValidade.textContent = '';
 
     atualizarCartaoVisual();
+    atualizarBotaoCompra();
 });
 
 function validarValidade() {
@@ -515,6 +543,12 @@ function atualizarFormaPagamento() {
     dadosPix.hidden = true;
 
     if (!selecionado) {
+        numeroCartao.required = false;
+        nomeTitular.required = false;
+        validadeCartao.required = false;
+        cvvCartao.required = false;
+        parcelasCartao.required = false;
+
         atualizarBotaoCompra();
         return;
     }
@@ -529,16 +563,23 @@ function atualizarFormaPagamento() {
     }
 
     const tipo = identificarTipoPagamento(metodo.nome);
+    const cartaoSelecionado = tipo === 'cartao';
+
+    numeroCartao.required = cartaoSelecionado;
+    nomeTitular.required = cartaoSelecionado;
+    validadeCartao.required = cartaoSelecionado;
+    cvvCartao.required = cartaoSelecionado;
+
+    parcelasCartao.required =
+        cartaoSelecionado && obterTipoCartaoSelecionado() === 'credito';
 
     if (tipo === 'cartao') {
         dadosCartao.hidden = false;
-
         atualizarParcelas();
 
     } else if (tipo === 'pix') {
         dadosPix.hidden = false;
-
-        gerarPixDemonstrativo();
+        prepararPixPedido();
     }
 
     atualizarBotaoCompra();
@@ -589,34 +630,43 @@ formasPagamento.addEventListener('change', atualizarFormaPagamento);
 
 
 // ==========================================
-// PIX DEMONSTRATIVO
+// PIX
 // ==========================================
 
-function gerarPixDemonstrativo() {
-    if (!valorTotalPedido || valorTotalPedido <= 0) {
-        return;
+function prepararPixPedido() {
+    codigoPix.value = '';
+    valorPix.textContent = formatarPreco(valorTotalPedido);
+    qrcode.replaceChildren();
+    const estado = document.createElement('p');
+    estado.textContent = 'O QR Pix será gerado após confirmar o pedido.';
+    qrcode.appendChild(estado);
+    document.getElementById('copiar-pix').disabled = true;
+}
+
+function renderizarPixPedido(pix, valorPedido) {
+    if (
+        !pix ||
+        typeof pix.copiaECola !== 'string' ||
+        pix.copiaECola.length === 0 ||
+        !Number.isFinite(Number(pix.valor)) ||
+        Number(pix.valor) !== Number(valorPedido)
+    ) {
+        throw new Error('O código Pix do pedido é inválido.');
     }
 
-    const valor = valorTotalPedido.toFixed(2);
-
-    const identificador = `LUMIERE-${Date.now()}`;
-
-    // Conteúdo demonstrativo, não é um payload PIX bancário válido.
-    const payload = `LUMIERE|PIX|${identificador}|BRL|${valor}`;
-
-    codigoPix.value = payload;
-
-    valorPix.textContent = formatarPreco(valorTotalPedido);
-
+    codigoPix.value = pix.copiaECola;
+    valorPix.textContent = formatarPreco(Number(pix.valor));
     qrcode.replaceChildren();
+    document.getElementById('copiar-pix').disabled = false;
 
     if (typeof QRCode === 'undefined') {
-        qrcode.textContent = 'Não foi possível carregar o gerador de QR Code.';
+        qrcode.textContent =
+            'Não foi possível desenhar o QR Code. Use o código Pix copia e cola.';
         return;
     }
 
     new QRCode(qrcode, {
-        text: payload,
+        text: pix.copiaECola,
         width: 190,
         height: 190,
         colorDark: '#25344F',
@@ -626,6 +676,11 @@ function gerarPixDemonstrativo() {
 }
 
 document.getElementById('copiar-pix').addEventListener('click', async () => {
+    if (!codigoPix.value) {
+        mostrarMensagem('Confirme o pedido para gerar o código Pix.');
+        return;
+    }
+
     try {
         await navigator.clipboard.writeText(codigoPix.value);
 
@@ -1068,12 +1123,21 @@ formularioFinalizar.addEventListener('submit', async event => {
         }
 
         pedidoConcluido = true;
+        const pixSelecionado = tipo === 'pix';
 
         let mensagemSucesso =
-            `Pedido #${dados.pedido.id} registrado. ` +
-            `Total: ${formatarPreco(Number(dados.pedido.valor_total))}. ` +
-            `Forma de pagamento: ${dados.formaPagamento}. ` +
-            'O pagamento ainda não foi processado pelo site.';
+    `COMPRA CONFIRMADA! Pedido #${dados.pedido.id}. `;
+
+if (pixSelecionado) {
+    mensagemSucesso +=
+        'Seu pedido está aguardando o pagamento via Pix. ' +
+        'Confira o recebimento na sua conta antes de confirmar o pagamento.';
+} else {
+    mensagemSucesso +=
+        `Total: ${formatarPreco(Number(dados.pedido.valor_total))}. ` +
+        `Pagamento: ${dados.formaPagamento}. ` +
+        'Seu pedido foi registrado com sucesso!';
+}
 
         try {
             localStorage.removeItem('carrinho');
@@ -1084,10 +1148,21 @@ formularioFinalizar.addEventListener('submit', async event => {
                 ' Não foi possível limpar os itens salvos na sacola.';
         }
 
+        if (pixSelecionado) {
+            try {
+                renderizarPixPedido(dados.pix, dados.pedido.valor_total);
+            } catch (erroPix) {
+                console.error('Pedido registrado sem exibir o QR Pix:', erroPix);
+                mensagemSucesso +=
+                    ' O pedido foi criado, mas o código Pix não pôde ser exibido. ' +
+                    'Não confirme novamente; verifique a configuração Pix no servidor.';
+            }
+        }
+
         mostrarMensagem(mensagemSucesso, 'sucesso');
 
         dadosCartao.hidden = true;
-        dadosPix.hidden = true;
+        dadosPix.hidden = !pixSelecionado;
 
     } catch (erro) {
         console.error('Não foi possível confirmar a compra:', erro);

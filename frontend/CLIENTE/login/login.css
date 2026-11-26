@@ -251,6 +251,81 @@ a {
     text-decoration: underline;
 }
 
+.dialog-tipo-acesso {
+    width: min(460px, calc(100% - 32px));
+    margin: auto;
+    padding: 0;
+    border: 1px solid rgba(12, 39, 69, 0.16);
+    border-radius: 16px;
+    background: var(--creme);
+    color: var(--azul);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+}
+
+.dialog-tipo-acesso::backdrop {
+    background: rgba(12, 39, 69, 0.72);
+    backdrop-filter: blur(3px);
+}
+
+.conteudo-dialog-tipo-acesso {
+    padding: 32px;
+}
+
+.conteudo-dialog-tipo-acesso .etiqueta {
+    margin-bottom: 12px;
+}
+
+.conteudo-dialog-tipo-acesso h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.conteudo-dialog-tipo-acesso p {
+    margin-top: 10px;
+    color: #536174;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.opcoes-tipo-acesso {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.opcoes-tipo-acesso button {
+    min-height: 48px;
+    padding: 12px 16px;
+    border: 1px solid var(--marrom);
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.botao-acesso-principal {
+    background: var(--marrom);
+    color: var(--branco);
+}
+
+.botao-acesso-principal:hover {
+    background: var(--azul);
+    border-color: var(--azul);
+}
+
+.botao-acesso-secundario {
+    background: transparent;
+    color: var(--marrom);
+}
+
+.botao-acesso-secundario:hover {
+    background: rgba(163, 77, 62, 0.08);
+}
+
 .rodape {
     min-height: 75px;
     display: flex;

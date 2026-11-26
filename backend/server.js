@@ -61,6 +61,7 @@ app.use('/api/kits', require('./CLIENTE/routes/kitsRoutes'))
 app.use('/api/favoritos', require('./CLIENTE/routes/favoritosRoutes'));
 app.use('/api/finalizar-compra', require('./CLIENTE/routes/finalizarCompraRoutes'));
 app.use('/api/enderecos', require('./CLIENTE/routes/enderecosRoutes'));
+app.use('/api/gerente', require('./GERENTE/Routes/gerenteRoutes'));
 
 // Página inicial
 app.get('/', (req, res) => {

@@ -35,6 +35,16 @@ As senhas são armazenadas com hash scrypt; a sessão é um cookie `HttpOnly` va
 
 Os favoritos da conta usam `GET /api/favoritos`, `POST /api/favoritos/:produtoId` e `DELETE /api/favoritos/:produtoId`.
 
-A tela de checkout busca as formas cadastradas em `GET /api/finalizar-compra/formas-pagamento`. A gravação do pedido ainda não está implementada; `pedidos.endereco_id` é obrigatório e a conta agora precisa ter endereço cadastrado para que essa etapa possa ser integrada.
+A tela de checkout busca as formas de pagamento em `GET /api/finalizar-compra/formas-pagamento` e registra os pedidos em `POST /api/finalizar-compra`. Ao escolher Pix, o backend gera um BR Code com o valor total calculado pelo banco e um identificador exclusivo do pedido. O Pix é enviado diretamente para a chave configurada; a confirmação do recebimento é manual e o pedido fica com `status_pagamento = 'aguardando_pagamento'`.
+
+Para habilitar o Pix, configure no `.env` local:
+
+```env
+PIX_CHAVE=sua-chave-pix
+PIX_NOME_RECEBEDOR=Nome do recebedor
+PIX_CIDADE_RECEBEDOR=Sua cidade
+```
+
+O nome deve ter até 25 caracteres e a cidade até 15. Não compartilhe nem versione o `.env`. Em bancos já existentes, execute `documentacao/migracao-status-pagamento-pix.sql` antes de reiniciar o backend. A opção Pix retorna erro explícito enquanto esses dados não estiverem configurados. O QR e o código copia e cola não confirmam pagamentos automaticamente; confira o recebimento na sua conta antes de considerar o pedido pago.
 
 As contas antigas salvas no `localStorage` não são migradas para o banco. Ao carregar o novo fluxo, os registros locais antigos são removidos; os usuários devem se cadastrar novamente.

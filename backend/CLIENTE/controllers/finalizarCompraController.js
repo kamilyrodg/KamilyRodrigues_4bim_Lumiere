@@ -4,6 +4,123 @@ const LIMITE_ITENS_PEDIDO = 100;
 const LIMITE_QUANTIDADE_ITEM = 999;
 const LIMITE_TOTAL_CENTAVOS = 9999999999;
 
+function campoPix(id, valor) {
+    const texto = String(valor);
+    const tamanho = Buffer.byteLength(texto, 'utf8');
+
+    if (tamanho > 99) {
+        throw new Error(`O campo Pix ${id} excede o tamanho permitido.`);
+    }
+
+    return `${id}${String(tamanho).padStart(2, '0')}${texto}`;
+}
+
+function crc16Pix(texto) {
+    let crc = 0xFFFF;
+
+    for (const byte of Buffer.from(texto, 'utf8')) {
+        crc ^= byte << 8;
+
+        for (let bit = 0; bit < 8; bit += 1) {
+            crc = crc & 0x8000
+                ? (crc << 1) ^ 0x1021
+                : crc << 1;
+            crc &= 0xFFFF;
+        }
+    }
+
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+
+function normalizarNomeRecebedor(valor, limite, campo) {
+    const texto = String(valor || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toUpperCase()
+        .replace(/[^A-Z0-9 ]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+    if (!texto || Buffer.byteLength(texto, 'utf8') > limite) {
+        throw new Error(
+            `${campo} Pix deve ter entre 1 e ${limite} caracteres alfanuméricos.`
+        );
+    }
+
+    return texto;
+}
+
+function obterConfiguracaoPix(env = process.env) {
+    const chave = typeof env.PIX_CHAVE === 'string'
+        ? env.PIX_CHAVE.trim()
+        : '';
+
+    if (!chave) {
+        throw new Error(
+            'Configure PIX_CHAVE, PIX_NOME_RECEBEDOR e PIX_CIDADE_RECEBEDOR no .env.'
+        );
+    }
+    if (Buffer.byteLength(chave, 'utf8') > 77) {
+        throw new Error('A chave Pix configurada excede 77 bytes.');
+    }
+
+    return {
+        chave,
+        nomeRecebedor: normalizarNomeRecebedor(
+            env.PIX_NOME_RECEBEDOR,
+            25,
+            'O nome do recebedor'
+        ),
+        cidade: normalizarNomeRecebedor(
+            env.PIX_CIDADE_RECEBEDOR,
+            15,
+            'A cidade do recebedor'
+        )
+    };
+}
+
+function gerarPixCopiaECola({ pedidoId, valor, chave, nomeRecebedor, cidade }) {
+    if (!Number.isSafeInteger(Number(pedidoId)) || Number(pedidoId) < 1) {
+        throw new Error('O identificador do pedido para o Pix é inválido.');
+    }
+
+    const valorNumerico = Number(valor);
+    if (!Number.isFinite(valorNumerico) || valorNumerico <= 0) {
+        throw new Error('O valor do pedido para o Pix é inválido.');
+    }
+
+    const txid = `LUMIERE${Number(pedidoId)}`;
+    if (txid.length > 25) {
+        throw new Error('O identificador do pedido excede o tamanho permitido no Pix.');
+    }
+
+    const contaRecebedor = [
+        campoPix('00', 'BR.GOV.BCB.PIX'),
+        campoPix('01', chave)
+    ].join('');
+    const dadosAdicionais = campoPix('05', txid);
+    const valorFormatado = valorNumerico.toFixed(2);
+    const payloadSemCrc = [
+        campoPix('00', '01'),
+        campoPix('01', '11'),
+        campoPix('26', contaRecebedor),
+        campoPix('52', '0000'),
+        campoPix('53', '986'),
+        campoPix('54', valorFormatado),
+        campoPix('58', 'BR'),
+        campoPix('59', nomeRecebedor),
+        campoPix('60', cidade),
+        campoPix('62', dadosAdicionais),
+        '6304'
+    ].join('');
+
+    return {
+        copiaECola: `${payloadSemCrc}${crc16Pix(payloadSemCrc)}`,
+        txid,
+        valor: valorFormatado
+    };
+}
+
 function validarId(value) {
     const texto = String(value);
     if (!/^[1-9]\d*$/.test(texto)) {
@@ -308,6 +425,24 @@ async function criarPedido(req, res) {
             });
         }
 
+        const formaPagamentoNome = formaPagamento.rows[0].nome;
+        const formaPagamentoNormalizada = formaPagamentoNome
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+        let configuracaoPix = null;
+
+        if (formaPagamentoNormalizada.includes('pix')) {
+            try {
+                configuracaoPix = obterConfiguracaoPix();
+            } catch (erroConfiguracao) {
+                await cliente.query('ROLLBACK');
+                return res.status(503).json({
+                    erro: erroConfiguracao.message
+                });
+            }
+        }
+
         const resumo = await carregarCarrinho(
             cliente,
             req.usuarioAutenticado.id,
@@ -326,10 +461,11 @@ async function criarPedido(req, res) {
 
         const pedido = await cliente.query(
             `INSERT INTO pedidos (
-                usuario_id, endereco_id, forma_pagamento_id, valor_total
+                usuario_id, endereco_id, forma_pagamento_id, valor_total,
+                status_pagamento
              )
-             VALUES ($1, $2, $3, $4)
-             RETURNING id, valor_total`,
+             VALUES ($1, $2, $3, $4, 'aguardando_pagamento')
+             RETURNING id, valor_total, status_pagamento`,
             [
                 req.usuarioAutenticado.id,
                 enderecoId,
@@ -338,6 +474,13 @@ async function criarPedido(req, res) {
             ]
         );
         const pedidoId = pedido.rows[0].id;
+        const pix = configuracaoPix
+            ? gerarPixCopiaECola({
+                pedidoId,
+                valor: pedido.rows[0].valor_total,
+                ...configuracaoPix
+            })
+            : null;
 
         for (const item of resumo.itens) {
             await cliente.query(
@@ -366,7 +509,8 @@ async function criarPedido(req, res) {
         await cliente.query('COMMIT');
         return res.status(201).json({
             pedido: pedido.rows[0],
-            formaPagamento: formaPagamento.rows[0].nome
+            formaPagamento: formaPagamentoNome,
+            pix
         });
     } catch (erro) {
         if (cliente) {
@@ -392,5 +536,7 @@ module.exports = {
     listarFormasPagamento,
     obterCarrinho,
     sincronizarCarrinho,
-    criarPedido
+    criarPedido,
+    gerarPixCopiaECola,
+    obterConfiguracaoPix
 };
