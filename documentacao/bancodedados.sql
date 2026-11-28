@@ -1,8 +1,49 @@
+-- Este arquivo recria o banco e apaga os dados existentes.
+-- O bloco abaixo interrompe a execução antes do DROP se encontrar registros.
+BEGIN;
+
+DO $$
+DECLARE
+    tabela TEXT;
+    possui_dados BOOLEAN;
+BEGIN
+    FOREACH tabela IN ARRAY ARRAY[
+        'sessoes', 'clientes', 'funcionarios', 'gerentes', 'enderecos',
+        'solicitacoes_servico',
+        'categorias', 'produtos', 'filmes', 'caracteristicas_filme',
+        'filme_caracteristicas', 'caracteristicas_lente',
+        'lente_caracteristicas', 'kits_produto', 'servicos', 'carrinhos',
+        'itens_carrinho', 'favoritos', 'formas_pagamento', 'pedidos',
+        'itens_pedido', 'usuarios'
+    ] LOOP
+        IF to_regclass(format('%I.%I', current_schema(), tabela)) IS NOT NULL THEN
+            EXECUTE format(
+                'LOCK TABLE %I.%I IN ACCESS EXCLUSIVE MODE',
+                current_schema(), tabela
+            );
+
+            EXECUTE format(
+                'SELECT EXISTS (SELECT 1 FROM %I.%I LIMIT 1)',
+                current_schema(), tabela
+            ) INTO possui_dados;
+
+            IF possui_dados THEN
+                RAISE EXCEPTION
+                    'Execução cancelada: a tabela % contém dados. Faça backup ou use uma migração que preserve os dados.',
+                    tabela;
+            END IF;
+        END IF;
+    END LOOP;
+END;
+$$;
+
 DROP TABLE IF EXISTS
     sessoes,
     clientes,
+    funcionarios,
     gerentes,
     enderecos,
+    solicitacoes_servico,
     categorias,
     produtos,
     filmes,
@@ -23,15 +64,13 @@ CASCADE;
 
 CREATE TABLE IF NOT EXISTS usuarios (
     id SERIAL PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     senha_hash VARCHAR(255) NOT NULL,
     username VARCHAR(50) NOT NULL UNIQUE,
     tipo VARCHAR(10) NOT NULL DEFAULT 'cliente',
     CHECK (tipo IN ('cliente', 'gerente'))
 );
-
-ALTER TABLE usuarios
-ADD COLUMN IF NOT EXISTS nome VARCHAR(150);
 
 CREATE TABLE IF NOT EXISTS sessoes (
     token_hash CHAR(64) PRIMARY KEY,
@@ -41,12 +80,59 @@ CREATE TABLE IF NOT EXISTS sessoes (
 );
 
 CREATE TABLE clientes (
-    usuario_id INTEGER PRIMARY KEY REFERENCES usuarios(id),
-    data_cadastro DATE DEFAULT CURRENT_DATE
+    usuario_id INTEGER PRIMARY KEY
+        REFERENCES usuarios(id) ON DELETE CASCADE,
+
+    telefone VARCHAR(20),
+
+    data_cadastro DATE NOT NULL DEFAULT CURRENT_DATE,
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
+
+INSERT INTO clientes (usuario_id)
+SELECT id
+FROM usuarios
+WHERE tipo = 'cliente'
+ON CONFLICT (usuario_id) DO NOTHING;
+
+CREATE OR REPLACE FUNCTION criar_registro_cliente()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.tipo = 'cliente' THEN
+        INSERT INTO clientes (usuario_id)
+        VALUES (NEW.id)
+        ON CONFLICT (usuario_id) DO NOTHING;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER trigger_criar_cliente
+AFTER INSERT ON usuarios
+FOR EACH ROW
+EXECUTE FUNCTION criar_registro_cliente();
 
 CREATE TABLE gerentes (
     usuario_id INTEGER PRIMARY KEY REFERENCES usuarios(id)
+);
+
+CREATE TABLE funcionarios (
+    id SERIAL PRIMARY KEY,
+
+    nome VARCHAR(150) NOT NULL,
+
+    email VARCHAR(150) NOT NULL UNIQUE,
+
+    telefone VARCHAR(20),
+
+    cargo VARCHAR(100) NOT NULL,
+
+    data_cadastro DATE NOT NULL DEFAULT CURRENT_DATE,
+
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE enderecos (
@@ -55,6 +141,23 @@ CREATE TABLE enderecos (
     nome_endereco VARCHAR(50) NOT NULL,
     endereco TEXT NOT NULL
 );
+
+CREATE TABLE solicitacoes_servico (
+    id SERIAL PRIMARY KEY,
+    usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+    endereco_id INTEGER REFERENCES enderecos(id) ON DELETE SET NULL,
+    tipo_servico VARCHAR(30) NOT NULL
+        CHECK (tipo_servico IN ('manutencao', 'revelacao', 'digitalizacao')),
+    servico_escolhido VARCHAR(150) NOT NULL,
+    nome_endereco VARCHAR(50) NOT NULL,
+    endereco TEXT NOT NULL,
+    status VARCHAR(30) NOT NULL DEFAULT 'solicitado'
+        CHECK (status IN ('solicitado', 'em_atendimento', 'concluido', 'cancelado')),
+    criada_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX solicitacoes_servico_criada_em_idx
+    ON solicitacoes_servico (criada_em DESC, id DESC);
 
 CREATE TABLE categorias (
     id SERIAL PRIMARY KEY,
@@ -164,7 +267,8 @@ CREATE TABLE pedidos (
     valor_total NUMERIC(10,2) NOT NULL DEFAULT 0
         CHECK (valor_total >= 0),
 
-    status_pagamento VARCHAR(30) NOT NULL DEFAULT 'aguardando_pagamento'
+    status_pagamento VARCHAR(30) NOT NULL DEFAULT 'aguardando_pagamento',
+    pix_txid VARCHAR(25) UNIQUE
 );
 
 CREATE TABLE itens_pedido (
@@ -544,3 +648,5 @@ WHERE imagem LIKE '%img/filme.jpg';
 UPDATE produtos
 SET imagem = REPLACE(imagem, 'img/lentes.jpg', 'img/CLIENTE/index/lentes.jpg')
 WHERE imagem LIKE '%img/lentes.jpg';
+
+COMMIT;

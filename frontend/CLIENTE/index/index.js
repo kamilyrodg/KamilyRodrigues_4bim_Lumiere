@@ -69,7 +69,7 @@ formPesquisa.addEventListener("submit", function (evento) {
         return;
     }
 
-    window.location.href = `./frontend/produtos.html?busca=${encodeURIComponent(pesquisa)}`;
+    window.location.href = `./frontend/CLIENTE/busca/busca.html?busca=${encodeURIComponent(pesquisa)}`;
 });
 
 document.addEventListener("click", function (evento) {

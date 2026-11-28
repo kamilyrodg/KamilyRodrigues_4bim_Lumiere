@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Painel do Gerente</title>
+    <link rel="stylesheet" href="./gerente.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script src="./gerente.js" defer></script>
+</head>
+<body>
+    <div class="painel">
+        <aside class="sidebar">
+            <a class="marca" href="#">
+                <span class="marca-nome">Lumière <span class="estrela">✦</span></span>
+                <span class="marca-subtitulo">CÂMERAS ANALÓGICAS</span>
+            </a>
+
+            <div class="sidebar-linha"></div>
+
+            <nav class="menu">
+                <a class="menu-item ativo" href="./gerente.html">
+                    <span class="menu-icone">▦</span>
+                    <span>Dashboard</span>
+                </a>
+                <a class="menu-item" href="../pedidos/pedidos.html">
+                    <span class="menu-icone">♧</span>
+                    <span>Pedidos</span>
+                </a>
+                <a class="menu-item" href="../servicos/servicos.html">
+                    <span class="menu-icone">◉</span>
+                    <span>Serviços</span>
+                </a>
+                <a class="menu-item" href="../produtos/produtos.html">
+                    <span class="menu-icone">◇</span>
+                    <span>Produtos</span>
+                </a>
+                <a class="menu-item" href="../clientes/clientes.html">
+                    <span class="menu-icone">♙</span>
+                    <span>Clientes</span>
+                </a>
+                <a class="menu-item" href="../funcionarios/funcionarios.html">
+                    <span class="menu-icone">♟</span>
+                    <span>Funcionários</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-linha menu-divisor"></div>
+
+            <!-- Ajuste o caminho abaixo para a página inicial/área do cliente do seu projeto. -->
+            <a class="voltar-clientes" href="../../../index.html">
+                <span class="voltar-icone">⌂</span>
+                <span>Voltar para<br>Clientes</span>
+                <span class="seta-voltar">←</span>
+            </a>
+
+            <div class="camera-decorativa" aria-hidden="true">
+                <span>✧</span>
+                <div class="camera-corpo">
+                    <div class="camera-lente"></div>
+                    <div class="camera-detalhe"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="conteudo" id="dashboard">
+            <header class="topo">
+                <div class="topo-linha"></div>
+                <div class="acoes-topo">
+                    <span class="perfil-gerente"><span class="perfil-icone">♙</span> Gerente <span class="chevron">⌄</span></span>
+                    <a class="sair" href="../../CLIENTE/login/login.html"><span>↪</span> Sair</a>
+                </div>
+            </header>
+
+            <section class="boas-vindas">
+                <div>
+                    <h1>Bem-vindo(a), Gerente! <span class="estrela">✦</span></h1>
+                    <p>Aqui estão os principais resumos da sua loja hoje:</p>
+                </div>
+                <div class="camera-hero" aria-hidden="true">
+                    <span class="camera-hero-flash"></span>
+                    <span class="camera-hero-viewfinder"></span>
+                    <span class="camera-hero-lens"><span></span></span>
+                    <span class="camera-hero-mark">L</span>
+                    <span class="camera-hero-sparkle">✦</span>
+                </div>
+            </section>
+
+            <section class="painel-listas">
+                <article class="bloco" id="pedidos">
+                    <div class="bloco-cabecalho">
+                        <h2><span class="titulo-icone">♧</span> Pedidos Recentes</h2>
+                        <a class="ver-todos" href="../pedidos/pedidos.html">Ver todos <span>→</span></a>
+                    </div>
+
+                    <div class="tabela-scroll">
+                        <table class="tabela tabela-pedidos">
+                            <thead>
+                                <tr>
+                                    <th>Nº DO PEDIDO</th>
+                                    <th>DATA</th>
+                                    <th>CLIENTE</th>
+                                    <th>VALOR</th>
+                                    <th>STATUS DO PEDIDO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">Carregando pedidos...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="bloco" id="servicos">
+                    <div class="bloco-cabecalho">
+                        <h2><span class="titulo-icone">◉</span> Serviços Recentes</h2>
+                        <a class="ver-todos" href="../servicos/servicos.html">Ver todos <span>→</span></a>
+                    </div>
+
+                    <div class="tabela-scroll">
+                        <table class="tabela tabela-servicos">
+                            <thead>
+                                <tr>
+                                    <th>Nº DO SERVIÇO</th>
+                                    <th>TIPO</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">Carregando serviços...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+            </section>
+
+            <footer class="rodape">
+                <span></span>
+                <p>LUMIÈRE ✦ CÂMERAS ANALÓGICAS</p>
+                <span></span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

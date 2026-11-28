@@ -17,6 +17,7 @@ async function carregarDashboard(req, res) {
                     (SELECT COUNT(*)
                      FROM itens_pedido
                      WHERE servico_id IS NOT NULL)
+                    + (SELECT COUNT(*) FROM solicitacoes_servico)
                         AS servicos_solicitados
             `),
 
@@ -26,6 +27,7 @@ async function carregarDashboard(req, res) {
                     p.id,
                     p.data_pedido,
                     p.valor_total,
+                    p.status_pedido,
                     p.status_pagamento,
                     u.nome AS nome_cliente,
                     u.username
@@ -36,26 +38,38 @@ async function carregarDashboard(req, res) {
                 LIMIT 5
             `),
 
-            // Serviços solicitados recentemente
+            // Serviços vendidos e solicitações feitas pelo WhatsApp
             pool.query(`
-                SELECT
-                    ip.id AS item_id,
-                    p.id AS pedido_id,
-                    p.data_pedido,
-                    p.status_pagamento,
-                    s.nome AS nome_servico,
-                    ip.quantidade,
-                    ip.preco_unitario,
-                    u.nome AS nome_cliente
-                FROM itens_pedido ip
-                INNER JOIN pedidos p
-                    ON ip.pedido_id = p.id
-                INNER JOIN servicos s
-                    ON ip.servico_id = s.id
-                INNER JOIN usuarios u
-                    ON p.usuario_id = u.id
-                WHERE ip.servico_id IS NOT NULL
-                ORDER BY p.data_pedido DESC
+                SELECT *
+                FROM (
+                    SELECT
+                        ip.id AS item_id,
+                        p.data_pedido,
+                        s.nome AS nome_servico,
+                        p.status_pagamento,
+                        NULL::VARCHAR AS status_solicitacao,
+                        'pedido'::VARCHAR AS origem
+                    FROM itens_pedido ip
+                    INNER JOIN pedidos p ON p.id = ip.pedido_id
+                    INNER JOIN servicos s ON s.id = ip.servico_id
+                    WHERE ip.servico_id IS NOT NULL
+
+                    UNION ALL
+
+                    SELECT
+                        ss.id AS item_id,
+                        ss.criada_em AS data_pedido,
+                        CASE ss.tipo_servico
+                            WHEN 'manutencao' THEN 'Manutenção'
+                            WHEN 'revelacao' THEN 'Revelação'
+                            WHEN 'digitalizacao' THEN 'Digitalização'
+                        END || ': ' || ss.servico_escolhido AS nome_servico,
+                        NULL::VARCHAR AS status_pagamento,
+                        ss.status AS status_solicitacao,
+                        'whatsapp'::VARCHAR AS origem
+                    FROM solicitacoes_servico ss
+                ) AS servicos_recentes
+                ORDER BY data_pedido DESC, item_id DESC
                 LIMIT 5
             `)
         ]);

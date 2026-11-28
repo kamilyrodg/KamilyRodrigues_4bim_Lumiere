@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Pedidos</title>
+    <link rel="stylesheet" href="../dashboard/gerente.css">
+    <link rel="stylesheet" href="../crud.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="./pedidos.js" defer></script>
+</head>
+<body>
+    <div class="painel">
+        <aside class="sidebar">
+            <a class="marca" href="../dashboard/gerente.html"><span class="marca-nome">Lumière <span class="estrela">✦</span></span><span class="marca-subtitulo">CÂMERAS ANALÓGICAS</span></a>
+            <div class="sidebar-linha"></div>
+            <nav class="menu" aria-label="Navegação do gerente">
+                <a class="menu-item" href="../dashboard/gerente.html"><span class="menu-icone">▦</span><span>Dashboard</span></a>
+                <a class="menu-item ativo" href="./pedidos.html"><span class="menu-icone">♧</span><span>Pedidos</span></a>
+                <a class="menu-item" href="../servicos/servicos.html"><span class="menu-icone">◉</span><span>Serviços</span></a>
+                <a class="menu-item" href="../produtos/produtos.html"><span class="menu-icone">◇</span><span>Produtos</span></a>
+                <a class="menu-item" href="../clientes/clientes.html"><span class="menu-icone">♙</span><span>Clientes</span></a>
+                <a class="menu-item" href="../funcionarios/funcionarios.html"><span class="menu-icone">♟</span><span>Funcionários</span></a>
+            </nav>
+            <div class="sidebar-linha menu-divisor"></div>
+            <a class="voltar-clientes" href="../../../index.html"><span class="voltar-icone">⌂</span><span>Voltar para<br>Clientes</span><span class="seta-voltar">←</span></a>
+        </aside>
+
+        <main class="conteudo">
+            <header class="topo"><div class="topo-linha"></div><a class="sair" href="../../CLIENTE/login/login.html"><span>↪</span> Sair</a></header>
+            <section class="boas-vindas crud-intro">
+                <div><h1>Pedidos <span class="estrela">✦</span></h1><p>Acompanhe compras, pagamentos e entregas.</p></div>
+            </section>
+            <section class="bloco crud-card">
+                <div class="crud-toolbar"><h2>Pedidos da loja</h2><p id="total-pedidos">Carregando…</p></div>
+                <p class="crud-message" id="mensagem" role="status" aria-live="polite"></p>
+                <div class="tabela-scroll">
+                    <table class="tabela crud-tabela tabela-pedidos-gerente">
+                        <thead><tr><th>PEDIDO</th><th>CLIENTE</th><th>ITENS</th><th>DATA</th><th>TOTAL</th><th>PAGAMENTO</th><th>STATUS DO PEDIDO</th></tr></thead>
+                        <tbody id="lista-pedidos"><tr><td class="crud-vazio" colspan="7">Carregando pedidos…</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+            <footer class="rodape"><span></span><p>LUMIÈRE ✦ CÂMERAS ANALÓGICAS</p><span></span></footer>
+        </main>
+    </div>
+</body>
+</html>

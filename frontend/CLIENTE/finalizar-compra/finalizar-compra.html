@@ -119,6 +119,8 @@
 
                         </div>
 
+                        <p class="aviso-cartao-simulacao">Checkout demonstrativo: não use dados reais de cartão. Este site ainda não está conectado a um serviço de cobrança.</p>
+
 
                         <div class="cartao-visual">
 
@@ -181,7 +183,7 @@
                                 type="text"
                                 id="numero-cartao"
                                 placeholder="0000 0000 0000 0000"
-                                maxlength="19"
+                                maxlength="23"
                                 inputmode="numeric"
                                 autocomplete="cc-number"
                             >
@@ -283,8 +285,8 @@
                         <h3>Pagamento via PIX</h3>
 
                         <p>
-                            Escaneie o QR Code ou copie o código para realizar
-                            o pagamento.
+                            Confira o QR Code e confirme a compra. Depois, use o código
+                            para realizar o pagamento via Pix.
                         </p>
 
                         <div id="qrcode" class="qrcode"></div>
@@ -360,6 +362,7 @@
 
                     <p id="mensagem-checkout" class="mensagem-checkout" role="alert" hidden></p>
 
+                    <p id="ajuda-confirmacao" class="ajuda-confirmacao" role="status" aria-live="polite"></p>
 
                     <button id="confirmar-compra" class="botao-confirmar" type="submit" disabled>
                         CONFIRMAR COMPRA

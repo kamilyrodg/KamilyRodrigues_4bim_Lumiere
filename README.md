@@ -4,7 +4,7 @@
 
 1. Copie `.env.example` para `.env` e configure as variáveis `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` e `DB_PASSWORD` para o PostgreSQL. O banco indicado em `DB_NAME` precisa existir. O arquivo `.env` é local e não deve ser versionado.
 2. Se ainda não criou o banco, crie-o no PostgreSQL (por exemplo, `CREATE DATABASE lumiere;`, se `DB_NAME=lumiere`).
-3. Execute `documentacao/bancodedados.sql` para criar as tabelas e carregar os produtos. O script preserva os usuários e as sessões, mas apaga e recria as demais tabelas — inclusive endereços, pedidos, favoritos e o catálogo. Use-o apenas em um banco novo ou quando puder perder esses dados. Em um banco existente que deve ser preservado, execute `documentacao/migracao-autenticacao.sql` para adicionar o nome completo e a tabela de sessões e `documentacao/migracao-lentes.sql` para adicionar o catálogo de lentes sem apagar os outros dados.
+3. Execute `documentacao/bancodedados.sql` somente em um banco novo e vazio para criar as tabelas e carregar os produtos. O script recria o esquema e apaga os dados existentes; agora ele cancela a execução se encontrar registros em qualquer tabela. Para preservar dados, use uma migração específica em vez de executar esse arquivo.
    Para corrigir os caminhos das imagens dos filmes em um catálogo já carregado, execute `documentacao/corrigir-imagens-catalogo.sql`; ele altera apenas o campo de imagem dos filmes e não apaga dados.
 4. Inicie o servidor na raiz do projeto:
 

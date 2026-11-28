@@ -1,6 +1,7 @@
 const gradeFilmes = document.getElementById('grade-filmes');
 const quantidadeProdutos = document.getElementById('quantidade-produtos');
 const pesquisaFilme = document.getElementById('pesquisa-filme');
+pesquisaFilme.value = new URLSearchParams(window.location.search).get('busca') || '';
 
 const mensagemVazia = document.getElementById('mensagem-vazia');
 const mensagemErro = document.getElementById('mensagem-erro');
@@ -92,7 +93,10 @@ function obterFilmesFiltrados() {
 
         const caracteristicas = obterCaracteristicas(filme);
 
-        const correspondePesquisa = nome.includes(pesquisa);
+        const correspondePesquisa = nome.includes(pesquisa) ||
+            caracteristicas.some(caracteristica =>
+                normalizarTexto(caracteristica).includes(pesquisa)
+            );
 
         const correspondeTipo =
             tipoSelecionado === 'todos' ||

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumière | Produtos</title>
+    <link rel="stylesheet" href="../dashboard/gerente.css">
+    <link rel="stylesheet" href="../crud.css">
+    <link rel="stylesheet" href="./produtos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="./produtos.js" defer></script>
+</head>
+<body>
+    <div class="painel">
+        <aside class="sidebar">
+            <a class="marca" href="../dashboard/gerente.html"><span class="marca-nome">Lumière <span class="estrela">✦</span></span><span class="marca-subtitulo">CÂMERAS ANALÓGICAS</span></a>
+            <div class="sidebar-linha"></div>
+            <nav class="menu" aria-label="Navegação do gerente">
+                <a class="menu-item" href="../dashboard/gerente.html"><span class="menu-icone">▦</span><span>Dashboard</span></a>
+                <a class="menu-item" href="../pedidos/pedidos.html"><span class="menu-icone">♧</span><span>Pedidos</span></a>
+                <a class="menu-item" href="../servicos/servicos.html"><span class="menu-icone">◉</span><span>Serviços</span></a>
+                <a class="menu-item ativo" href="./produtos.html"><span class="menu-icone">◇</span><span>Produtos</span></a>
+                <a class="menu-item" href="../clientes/clientes.html"><span class="menu-icone">♙</span><span>Clientes</span></a>
+                <a class="menu-item" href="../funcionarios/funcionarios.html"><span class="menu-icone">♟</span><span>Funcionários</span></a>
+            </nav>
+            <div class="sidebar-linha menu-divisor"></div>
+            <a class="voltar-clientes" href="../../../index.html"><span class="voltar-icone">⌂</span><span>Voltar para<br>Clientes</span><span class="seta-voltar">←</span></a>
+        </aside>
+
+        <main class="conteudo">
+            <header class="topo"><div class="topo-linha"></div><a class="sair" href="../../CLIENTE/login/login.html"><span>↪</span> Sair</a></header>
+            <section class="boas-vindas crud-intro">
+                <div><h1>Produtos <span class="estrela">✦</span></h1><p>Gerencie câmeras, filmes, lentes e kits da loja.</p></div>
+                <div class="crud-actions"><button class="crud-button primario" id="novo-produto" type="button">＋ Adicionar produto</button></div>
+            </section>
+
+            <section class="bloco product-search-card">
+                <div><h2>Editar pelo ID</h2><p>Digite o ID para localizar e carregar um produto para edição.</p></div>
+                <form id="buscar-produto" class="product-search-form">
+                    <label for="id-produto">ID do produto</label>
+                    <div><input id="id-produto" type="number" min="1" step="1" placeholder="Ex.: 24" required><button class="crud-button primario" type="submit">Buscar ID</button></div>
+                </form>
+            </section>
+
+            <p class="crud-message" id="mensagem" role="status" aria-live="polite"></p>
+
+            <section class="crud-form-panel product-form-panel" id="painel-formulario" hidden>
+                <div class="product-form-heading"><div><span class="product-eyebrow" id="modo-formulario">NOVO ITEM</span><h2 id="titulo-formulario">Adicionar produto</h2></div><span class="product-id" id="identificador-produto" hidden></span></div>
+                <form class="crud-form" id="form-produto">
+                    <input type="hidden" name="id">
+                    <label class="crud-field">Nome do produto<input name="nome" type="text" maxlength="150" required></label>
+                    <label class="crud-field">Categoria
+                        <select name="categoria_id" id="categoria-produto" required>
+                            <option value="1">Câmera analógica</option>
+                            <option value="2">Câmera digital</option>
+                            <option value="3">Filme</option>
+                            <option value="4">Lente</option>
+                            <option value="5">Kit</option>
+                        </select>
+                    </label>
+                    <label class="crud-field">Preço<input name="preco" type="number" min="0" step="0.01" required></label>
+                    <label class="crud-field">Preço no Pix<input name="preco_pix" type="number" min="0" step="0.01" required></label>
+                    <label class="crud-field largo product-file-field">Imagem do produto<input id="arquivo-imagem" type="file" accept="image/jpeg,image/png,image/webp,image/gif"><span>Escolha uma imagem JPEG, PNG, WebP ou GIF de até 5 MB.</span></label>
+                    <input type="hidden" name="imagem">
+                    <div class="product-image-preview largo" id="imagem-preview" hidden><img id="imagem-preview-foto" alt="Prévia da imagem do produto"><span id="imagem-preview-legenda"></span></div>
+
+                    <fieldset class="product-detail-group largo" id="detalhes-filme" hidden>
+                        <legend>Dados do filme</legend>
+                        <div class="product-detail-grid">
+                            <label class="crud-field">ISO<input name="iso" type="number" min="1" step="1" placeholder="400"></label>
+                            <label class="crud-field">Quantidade de poses<input name="quantidade_poses" type="number" min="1" step="1" placeholder="36"></label>
+                            <label class="crud-field largo">Características<input name="caracteristicas_filme" type="text" placeholder="Colorido, 35mm"></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="product-detail-group largo" id="detalhes-lente" hidden>
+                        <legend>Dados da lente</legend>
+                        <label class="crud-field">Características<input name="caracteristicas_lente" type="text" placeholder="Fixa, Macro, Retrato"></label>
+                    </fieldset>
+
+                    <fieldset class="product-detail-group largo" id="detalhes-kit" hidden>
+                        <legend>Produtos que compõem o kit</legend>
+                        <label class="crud-field">IDs e quantidades<input name="componentes" type="text" placeholder="24:1, 31:2"></label>
+                        <p class="product-help">Informe cada produto como ID:quantidade, separados por vírgula. O sistema mostra a composição atual ao editar um kit.</p>
+                    </fieldset>
+
+                    <p class="product-help largo" id="ajuda-categoria">Câmeras usam a categoria analógica ou digital selecionada acima.</p>
+                    <div class="crud-form-actions largo">
+                        <button class="crud-button primario" id="salvar-produto" type="submit">Salvar produto</button>
+                        <button class="crud-button" id="cancelar-produto" type="button">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="bloco crud-card product-list-card">
+                <div class="crud-toolbar"><h2>Catálogo completo</h2><p id="total-produtos">Carregando…</p></div>
+                <div class="tabela-scroll">
+                    <table class="tabela crud-tabela product-table">
+                        <thead><tr><th>ID</th><th>IMAGEM</th><th>PRODUTO</th><th>CATEGORIA</th><th>PREÇO</th><th>PIX</th><th>AÇÕES</th></tr></thead>
+                        <tbody id="lista-produtos"><tr><td class="crud-vazio" colspan="7">Carregando produtos…</td></tr></tbody>
+                    </table>
+                </div>
+            </section>
+            <footer class="rodape"><span></span><p>LUMIÈRE ✦ CÂMERAS ANALÓGICAS</p><span></span></footer>
+        </main>
+    </div>
+</body>
+</html>

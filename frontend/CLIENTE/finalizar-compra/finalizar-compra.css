@@ -302,6 +302,17 @@ a {
     font-weight: 400;
 }
 
+.aviso-cartao-simulacao {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border: 1px solid rgba(185, 111, 88, 0.32);
+    border-radius: 8px;
+    color: #754b3b;
+    background: rgba(244, 222, 198, 0.42);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
 .bandeira-cartao {
     padding: 7px 10px;
     border-radius: 5px;
@@ -743,6 +754,19 @@ a {
 .botao-confirmar:disabled {
     background: #9a9690;
     cursor: not-allowed;
+}
+
+.ajuda-confirmacao {
+    min-height: 18px;
+    margin-top: 10px;
+    color: #6F4D38;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.ajuda-confirmacao.pronto {
+    color: #276343;
 }
 
 

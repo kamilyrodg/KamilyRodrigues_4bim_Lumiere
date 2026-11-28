@@ -4,6 +4,7 @@ const {
     listarFormasPagamento,
     obterCarrinho,
     sincronizarCarrinho,
+    gerarPixPrevia,
     criarPedido
 } = require('../controllers/finalizarCompraController');
 
@@ -13,6 +14,7 @@ router.use(obterSessao);
 router.get('/formas-pagamento', listarFormasPagamento);
 router.get('/carrinho', obterCarrinho);
 router.post('/carrinho', sincronizarCarrinho);
+router.post('/pix', gerarPixPrevia);
 router.post('/', criarPedido);
 
 module.exports = router;

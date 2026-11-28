@@ -61,6 +61,7 @@ app.use('/api/kits', require('./CLIENTE/routes/kitsRoutes'))
 app.use('/api/favoritos', require('./CLIENTE/routes/favoritosRoutes'));
 app.use('/api/finalizar-compra', require('./CLIENTE/routes/finalizarCompraRoutes'));
 app.use('/api/enderecos', require('./CLIENTE/routes/enderecosRoutes'));
+app.use('/api/solicitacoes-servico', require('./CLIENTE/routes/solicitacoesServicoRoutes'));
 app.use('/api/gerente', require('./GERENTE/Routes/gerenteRoutes'));
 
 // Página inicial
@@ -106,6 +107,10 @@ app.use((erro, req, res, next) => {
 
     if (res.headersSent) {
         return next(erro);
+    }
+
+    if (erro.type === 'entity.too.large') {
+        return res.status(413).json({ mensagem: 'O arquivo enviado excede o limite permitido.' });
     }
 
     res.status(500).json({

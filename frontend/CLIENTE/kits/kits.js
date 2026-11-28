@@ -1,5 +1,9 @@
 
-const API = 'http://localhost:3000/api/kits';
+const apiBase = (window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1') && window.location.port !== '3000'
+    ? `${window.location.protocol}//${window.location.hostname}:3000`
+    : '';
+const API = `${apiBase}/api/kits`;
 let favoritosIds = new Set();
 
 async function carregarFavoritos() {
@@ -24,6 +28,14 @@ function atualizarBotaoFavorito(botao, favorito) {
         'aria-label',
         favorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
     );
+}
+
+function normalizarCaminhoImagem(caminho) {
+    if (!caminho) return '';
+    const imagem = String(caminho);
+    return imagem.startsWith('./img/') ? `/${imagem.slice(2)}`
+        : imagem.startsWith('img/') ? `/${imagem}`
+            : imagem;
 }
 
 async function alternarFavorito(kit, botao) {
@@ -97,22 +109,38 @@ async function listarKits() {
             throw new Error('Erro ao buscar os kits.');
         }
 
-        const kits = await resposta.json();
+        const kitsDisponiveis = await resposta.json();
+        const termoBusca = new URLSearchParams(window.location.search).get('busca') || '';
+        const buscaNormalizada = termoBusca
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLocaleLowerCase('pt-BR')
+            .trim();
+        const kits = kitsDisponiveis.filter(kit => {
+            const textoKit = [kit.nome, ...(kit.produtos || []).map(produto => produto.nome)]
+                .filter(Boolean)
+                .join(' ')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLocaleLowerCase('pt-BR');
+            return textoKit.includes(buscaNormalizada);
+        });
         await carregarFavoritos();
 
         grade.innerHTML = '';
 
         if (kits.length === 0) {
-            grade.innerHTML = '<p>Nenhum kit disponível no momento.</p>';
+            grade.innerHTML = buscaNormalizada
+                ? '<p>Nenhum kit corresponde à pesquisa.</p>'
+                : '<p>Nenhum kit disponível no momento.</p>';
             return;
         }
 
         kits.forEach(kit => {
 
             const imagemProduto = kit.produtos.find(produto => produto.imagem);
-            const imagem = imagemProduto
-                ? imagemProduto.imagem.replace(/^\.\//, '/')
-                : '';
+            const imagemComponente = normalizarCaminhoImagem(imagemProduto?.imagem);
+            let imagem = normalizarCaminhoImagem(kit.imagem) || imagemComponente;
 
             const preco = Number(kit.preco).toLocaleString('pt-BR', {
                 style: 'currency',
@@ -174,6 +202,16 @@ async function listarKits() {
 
                 </div>
             `;
+
+            card.querySelector('.imagem-kit img').onerror = function () {
+                if (imagemComponente && imagem !== imagemComponente) {
+                    imagem = imagemComponente;
+                    this.src = imagemComponente;
+                    return;
+                }
+                this.onerror = null;
+                this.style.visibility = 'hidden';
+            };
 
             const botaoFavorito = document.createElement('button');
             botaoFavorito.type = 'button';

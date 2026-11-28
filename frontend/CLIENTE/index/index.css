@@ -220,15 +220,21 @@ img {
 }
 
 .imagem-destaque {
+    position: relative;
     min-height: 350px;
     overflow: hidden;
 }
 
-.imagem-destaque img {
+.imagem-destaque video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.7s ease;
 }
 
-.destaque:hover .imagem-destaque img {
+.destaque:hover .imagem-destaque video {
     transform: scale(1.045);
 }
 
@@ -962,11 +968,16 @@ img {
 }
 
 .pesquisa-header form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     width: 100%;
 }
 
 .pesquisa-header input {
-    width: 100%;
+    flex: 1;
+    width: auto;
+    min-width: 0;
     padding: 11px 16px;
     border: 1px solid rgba(255, 241, 210, 0.45);
     border-radius: 25px;
@@ -975,6 +986,22 @@ img {
     color: var(--azul);
     font-family: 'Montserrat', sans-serif;
     font-size: 12px;
+}
+
+.pesquisa-header button {
+    flex: 0 0 auto;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 22px;
+    color: var(--azul);
+    background: var(--rosa);
+    font: 600 10px 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pesquisa-header button:hover {
+    background: var(--creme);
 }
 
 .pesquisa-header input:focus {

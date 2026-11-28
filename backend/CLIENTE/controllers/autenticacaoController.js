@@ -202,9 +202,11 @@ async function entrar(req, res) {
 
     try {
         const resultado = await pool.query(
-            `SELECT id, nome, email, username, senha_hash, tipo
-             FROM usuarios
-             WHERE LOWER(email) = $1 OR LOWER(username) = $1
+            `SELECT u.id, u.nome, u.email, u.username, u.senha_hash, u.tipo
+             FROM usuarios u
+             LEFT JOIN clientes c ON c.usuario_id = u.id
+             WHERE (LOWER(u.email) = $1 OR LOWER(u.username) = $1)
+               AND (u.tipo <> 'cliente' OR c.ativo IS TRUE)
              LIMIT 1`,
             [identificador]
         );
@@ -234,7 +236,10 @@ async function obterSessao(req, res, next) {
             `SELECT u.id, u.nome, u.email, u.username, u.tipo
              FROM sessoes s
              JOIN usuarios u ON u.id = s.usuario_id
-             WHERE s.token_hash = $1 AND s.expira_em > NOW()
+             LEFT JOIN clientes c ON c.usuario_id = u.id
+             WHERE s.token_hash = $1
+               AND s.expira_em > NOW()
+               AND (u.tipo <> 'cliente' OR c.ativo IS TRUE)
              LIMIT 1`,
             [hashToken(token)]
         );
@@ -369,6 +374,8 @@ async function sair(req, res) {
 module.exports = {
     cadastrar,
     entrar,
+    criarHashSenha,
+    validarCadastro,
     obterSessao,
     obterUsuarioAtual,
     atualizarUsuarioAtual,

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa | Lumière</title>
+    <link rel="stylesheet" href="/frontend/CLIENTE/csss/style.css">
+    <link rel="stylesheet" href="./busca.css">
+    <script src="./busca.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="cabecalho">
+        <a href="/index.html" class="logo">Lumière <span>✦</span></a>
+        <nav class="navegacao" aria-label="Navegação principal">
+            <a href="/index.html">INÍCIO</a>
+            <a href="../cameras/cameras.html">CÂMERAS</a>
+            <a href="../filmes/filmes.html">FILMES</a>
+            <a href="../lentes/lentes.html">LENTES</a>
+            <a href="../kits/kits.html">KITS</a>
+        </nav>
+        <div class="acoes-cabecalho">
+            <a href="/frontend/CLIENTE/minha-conta/minha-conta.html" class="icone-cabecalho" aria-label="Minha conta" title="Minha conta">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path></svg>
+            </a>
+            <a href="/index.html?mostrarFavoritos=1" class="icone-cabecalho" aria-label="Favoritos" title="Favoritos">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9L12 3Z"></path></svg>
+            </a>
+            <a href="/index.html?mostrarCarrinho=1" class="icone-cabecalho" aria-label="Abrir carrinho" title="Carrinho">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 9H6"></path><circle cx="10" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="pagina pagina-busca">
+        <section class="busca-intro">
+            <span class="etiqueta">ENCONTRE SUA PRÓXIMA DESCOBERTA</span>
+            <h1>Pesquisa Lumière <span>✦</span></h1>
+            <form id="form-resultados" class="form-resultados">
+                <input id="termo-resultados" type="search" aria-label="Pesquisar produtos" placeholder="Buscar câmeras, filmes, lentes e kits">
+                <button type="submit">Pesquisar</button>
+            </form>
+            <p id="resumo-resultados" role="status" aria-live="polite">Buscando produtos…</p>
+        </section>
+
+        <section id="grade-resultados" class="grade-resultados" aria-live="polite"></section>
+        <div id="estado-vazio" class="estado-resultados" hidden>
+            <span>✦</span>
+            <h2>Nenhum produto encontrado</h2>
+            <p>Tente outro nome ou navegue pelas categorias.</p>
+        </div>
+        <p id="erro-resultados" class="erro-resultados" role="alert" hidden>Não foi possível carregar os produtos. Confira se o servidor está funcionando e tente novamente.</p>
+    </main>
+</body>
+</html>

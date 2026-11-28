@@ -1,6 +1,7 @@
 const gradeCameras = document.getElementById('grade-cameras');
 const quantidadeProdutos = document.getElementById('quantidade-produtos');
 const pesquisaCamera = document.getElementById('pesquisa-camera');
+pesquisaCamera.value = new URLSearchParams(window.location.search).get('busca') || '';
 
 const mensagemVazia = document.getElementById('mensagem-vazia');
 const mensagemErro = document.getElementById('mensagem-erro');
@@ -17,6 +18,14 @@ const apiBase = (
 let cameras = [];
 let favoritosIds = new Set();
 let tipoSelecionado = 'todas';
+
+function normalizarCaminhoImagem(caminho) {
+    if (!caminho) return '';
+    const imagem = String(caminho);
+    return imagem.startsWith('./img/') ? `/${imagem.slice(2)}`
+        : imagem.startsWith('img/') ? `/${imagem}`
+            : imagem;
+}
 
 const formatarPreco = valor => {
     return Number(valor).toLocaleString('pt-BR', {
@@ -61,12 +70,14 @@ async function carregarCameras() {
 }
 
 function obterCamerasFiltradas() {
-    const pesquisa = pesquisaCamera.value
-        .trim()
+    const normalizarTexto = texto => String(texto || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
         .toLocaleLowerCase('pt-BR');
+    const pesquisa = normalizarTexto(pesquisaCamera.value.trim());
 
     return cameras.filter(camera => {
-        const nome = camera.nome.toLocaleLowerCase('pt-BR');
+        const nome = normalizarTexto(camera.nome);
 
         const correspondePesquisa = nome.includes(pesquisa);
 
@@ -154,7 +165,7 @@ function criarCartao(camera) {
 
     const foto = document.createElement('img');
 
-    foto.src = camera.imagem || '';
+    foto.src = normalizarCaminhoImagem(camera.imagem);
 
     foto.alt = camera.nome;
 

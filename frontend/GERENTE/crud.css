@@ -1,0 +1,434 @@
+.crud-intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.crud-intro h1 {
+    color: #172535;
+    font-family: var(--serifada);
+    font-size: clamp(28px, 2.4vw, 38px);
+    font-weight: 400;
+}
+
+.crud-intro p {
+    margin-top: 8px;
+    color: var(--azul-claro);
+    font-size: 13px;
+}
+
+.crud-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.crud-button {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1px solid var(--terracota);
+    border-radius: 8px;
+    color: var(--coffee);
+    background: transparent;
+    cursor: pointer;
+    font: 500 12px var(--sem-serifa);
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.crud-button:hover {
+    transform: translateY(-1px);
+    color: var(--creme-claro);
+    background: var(--coffee);
+}
+
+.crud-button.primario {
+    border-color: var(--azul);
+    color: var(--creme-claro);
+    background: var(--azul);
+}
+
+.crud-button.primario:hover {
+    background: #344967;
+}
+
+.crud-button.perigo {
+    border-color: rgba(99, 32, 36, 0.45);
+    color: var(--vinho);
+}
+
+.crud-button.pequeno {
+    min-height: 30px;
+    padding: 5px 9px;
+    font-size: 10px;
+}
+
+.crud-card {
+    margin-top: 0;
+}
+
+.crud-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 6px 13px;
+}
+
+.crud-toolbar h2 {
+    color: #30251f;
+    font-family: var(--serifada);
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.crud-toolbar p {
+    color: var(--azul-claro);
+    font-size: 11px;
+}
+
+.crud-form-panel {
+    margin-bottom: 16px;
+    padding: 18px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: rgba(255, 249, 241, 0.72);
+}
+
+.crud-form-panel[hidden] {
+    display: none;
+}
+
+.crud-form-panel h2 {
+    margin-bottom: 14px;
+    color: #30251f;
+    font-family: var(--serifada);
+    font-size: 21px;
+    font-weight: 400;
+}
+
+.crud-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.crud-field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--coffee);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.crud-field[hidden],
+.crud-checkbox[hidden] {
+    display: none;
+}
+
+.crud-field.largo {
+    grid-column: 1 / -1;
+}
+
+.crud-field input {
+    width: 100%;
+    min-height: 39px;
+    padding: 9px 11px;
+    border: 1px solid rgba(111, 77, 56, 0.24);
+    border-radius: 7px;
+    outline: none;
+    color: var(--texto);
+    background: #fffdf9;
+    font: 400 12px var(--sem-serifa);
+}
+
+.crud-field input:focus {
+    border-color: var(--terracota);
+    box-shadow: 0 0 0 3px rgba(185, 111, 88, 0.12);
+}
+
+.crud-field input[type="checkbox"] {
+    width: 16px;
+    min-height: 16px;
+    accent-color: var(--azul);
+}
+
+.crud-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: start;
+    color: var(--coffee);
+    font-size: 11px;
+}
+
+.crud-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    gap: 8px;
+    margin-top: 3px;
+}
+
+.crud-message {
+    min-height: 18px;
+    margin: 0 6px 10px;
+    color: var(--coffee);
+    font-size: 11px;
+}
+
+.crud-message.erro {
+    color: var(--vinho);
+}
+
+.crud-tabela {
+    min-width: 700px;
+}
+
+.tabela-pedidos-gerente {
+    min-width: 1050px;
+}
+
+.tabela-servicos-gerente {
+    min-width: 900px;
+}
+
+.crud-tabela th,
+.crud-tabela td {
+    padding: 11px 10px;
+    vertical-align: middle;
+}
+
+.crud-tabela td {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.crud-tabela .acoes-cadastro {
+    display: flex;
+    min-width: 150px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.status-select {
+    width: 100%;
+    min-width: 150px;
+    min-height: 38px;
+    padding: 8px 36px 8px 30px;
+    appearance: none;
+    border: 1px solid rgba(111, 77, 56, 0.2);
+    border-radius: 999px;
+    outline: none;
+    color: var(--coffee);
+    background: linear-gradient(180deg, #fffdf9 0%, #fbf3e9 100%);
+    box-shadow: 0 2px 7px rgba(87, 61, 43, 0.06), inset 0 1px 0 #fff;
+    cursor: pointer;
+    font: 600 10px var(--sem-serifa);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.status-select-wrap {
+    position: relative;
+    display: inline-flex;
+    min-width: 150px;
+    border-radius: 999px;
+}
+
+.status-select-wrap::before {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 12px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #89936f;
+    box-shadow: 0 0 0 3px rgba(137, 147, 111, 0.13);
+    content: '';
+    pointer-events: none;
+    transform: translateY(-50%);
+}
+
+.status-select-wrap::after {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 7px;
+    height: 7px;
+    border-right: 1.5px solid var(--terracota);
+    border-bottom: 1.5px solid var(--terracota);
+    content: '';
+    pointer-events: none;
+    transform: rotate(45deg);
+    transition: transform 0.18s ease;
+}
+
+.status-select-wrap:focus-within .status-select {
+    border-color: var(--terracota);
+    box-shadow: 0 0 0 3px rgba(185, 111, 88, 0.13), inset 0 1px 0 #fff;
+}
+
+.status-select-wrap:focus-within::after {
+    transform: translateY(3px) rotate(225deg);
+}
+
+.status-select:hover:not(:disabled) {
+    border-color: rgba(185, 111, 88, 0.55);
+    background: #fffaf3;
+}
+
+.status-select:disabled {
+    cursor: wait;
+    opacity: 0.65;
+}
+
+.status-select-wrap[data-status="confirmado"]::before {
+    background: #667b8a;
+    box-shadow: 0 0 0 3px rgba(102, 123, 138, 0.13);
+}
+
+.status-select-wrap[data-status="em_preparacao"]::before {
+    background: #c28a51;
+    box-shadow: 0 0 0 3px rgba(194, 138, 81, 0.14);
+}
+
+.status-select-wrap[data-status="em_atendimento"]::before {
+    background: #c28a51;
+    box-shadow: 0 0 0 3px rgba(194, 138, 81, 0.14);
+}
+
+.status-select-wrap[data-status="concluido"]::before {
+    background: #71845a;
+    box-shadow: 0 0 0 3px rgba(113, 132, 90, 0.14);
+}
+
+.status-select-wrap[data-status="enviado"]::before {
+    background: #71845a;
+    box-shadow: 0 0 0 3px rgba(113, 132, 90, 0.14);
+}
+
+.status-select-wrap[data-status="cancelado"]::before {
+    background: #a85f57;
+    box-shadow: 0 0 0 3px rgba(168, 95, 87, 0.13);
+}
+
+.status-secundario {
+    display: block;
+    margin-top: 5px;
+    color: var(--azul-claro);
+    font: 500 9px var(--sem-serifa);
+    white-space: normal;
+}
+
+.pedido-recebido {
+    background: #dfe4d1;
+}
+
+.pedido-confirmado {
+    background: #d4e0e5;
+}
+
+.pedido-preparacao {
+    background: #edcfaa;
+}
+
+.pedido-enviado {
+    background: #d5dfc5;
+}
+
+.pedido-cancelado {
+    background: #ead1cb;
+}
+
+.itens-pedido {
+    min-width: 145px;
+    line-height: 1.55;
+}
+
+.dados-secundarios {
+    display: block;
+    margin-top: 3px;
+    color: var(--azul-claro);
+    font-size: 9px;
+}
+
+.linha-inativa {
+    opacity: 0.58;
+}
+
+.status-cadastro {
+    display: inline-flex;
+    padding: 5px 9px;
+    border-radius: 999px;
+    color: #31422f;
+    background: #dfe6d4;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.status-cadastro.inativo {
+    color: #5d3432;
+    background: #ead7d1;
+}
+
+.crud-vazio {
+    padding: 24px 12px !important;
+    color: var(--azul-claro);
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .crud-intro {
+        align-items: flex-start;
+    }
+
+    .crud-intro h1 {
+        font-size: 26px;
+    }
+
+    .crud-intro p {
+        font-size: 11px;
+    }
+
+    .crud-button {
+        min-height: 34px;
+        padding: 7px 10px;
+        font-size: 10px;
+    }
+
+    .crud-toolbar h2 {
+        font-size: 18px;
+    }
+
+    .crud-form {
+        grid-template-columns: 1fr;
+    }
+
+    .crud-field.largo,
+    .crud-form-actions {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .crud-intro {
+        flex-direction: column;
+    }
+
+    .crud-actions {
+        width: 100%;
+    }
+
+    .crud-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

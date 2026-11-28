@@ -6,6 +6,9 @@ const pool = require('../../db');
 const router = express.Router();
 
 const gerenteController = require('../Controllers/gerenteController');
+const cadastrosController = require('../Controllers/cadastrosController');
+const operacoesController = require('../Controllers/operacoesController');
+const produtosController = require('../Controllers/produtosController');
 
 // Verificar sessão do usuário
 async function verificarGerente(req, res, next) {
@@ -79,11 +82,37 @@ async function verificarGerente(req, res, next) {
     }
 }
 
-// Dashboard
-router.get(
-    '/dashboard',
-    verificarGerente,
-    gerenteController.carregarDashboard
-);
+// Todas as rotas de gerenciamento exigem uma sessão de gerente.
+router.use(verificarGerente);
+
+router.get('/dashboard', gerenteController.carregarDashboard);
+
+router.get('/produtos', produtosController.listarProdutos);
+router.post('/produtos/imagem', express.raw({
+    type: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+    limit: '5mb'
+}), produtosController.enviarImagem);
+router.get('/produtos/:id', produtosController.buscarProduto);
+router.post('/produtos', produtosController.gravarProduto);
+router.put('/produtos/:id', produtosController.gravarProduto);
+router.delete('/produtos/:id', produtosController.excluirProduto);
+
+router.get('/clientes', cadastrosController.listarClientes);
+router.post('/clientes', cadastrosController.criarCliente);
+router.put('/clientes/:id', cadastrosController.atualizarCliente);
+router.patch('/clientes/:id/status', cadastrosController.atualizarStatusCliente);
+router.delete('/clientes/:id', cadastrosController.excluirCliente);
+
+router.get('/funcionarios', cadastrosController.listarFuncionarios);
+router.post('/funcionarios', cadastrosController.criarFuncionario);
+router.put('/funcionarios/:id', cadastrosController.atualizarFuncionario);
+router.patch('/funcionarios/:id/status', cadastrosController.atualizarStatusFuncionario);
+router.delete('/funcionarios/:id', cadastrosController.excluirFuncionario);
+
+router.get('/pedidos', operacoesController.listarPedidos);
+router.patch('/pedidos/:id/status', operacoesController.atualizarStatusPedido);
+router.get('/servicos', operacoesController.listarServicos);
+router.get('/solicitacoes-servico', operacoesController.listarSolicitacoesServico);
+router.patch('/solicitacoes-servico/:id/status', operacoesController.atualizarStatusSolicitacaoServico);
 
 module.exports = router;

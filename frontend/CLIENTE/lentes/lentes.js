@@ -2,6 +2,7 @@
 const gradeLentes = document.getElementById('grade-lentes');
 const quantidadeProdutos = document.getElementById('quantidade-produtos');
 const pesquisaLente = document.getElementById('pesquisa-lente');
+pesquisaLente.value = new URLSearchParams(window.location.search).get('busca') || '';
 const mensagemVazia = document.getElementById('mensagem-vazia');
 const mensagemErro = document.getElementById('mensagem-erro');
 const tentarNovamente = document.getElementById('tentar-novamente');
@@ -16,6 +17,14 @@ const apiBase = (
 let lentes = [];
 let favoritosIds = new Set();
 let caracteristicaAtual = 'todas';
+
+function normalizarCaminhoImagem(caminho) {
+    if (!caminho) return '';
+    const imagem = String(caminho);
+    return imagem.startsWith('./img/') ? `/${imagem.slice(2)}`
+        : imagem.startsWith('img/') ? `/${imagem}`
+            : imagem;
+}
 
 async function carregarLentes() {
 
@@ -110,18 +119,22 @@ async function alternarFavorito(lente, botao) {
 
 function exibirLentes() {
 
-    const pesquisa = pesquisaLente.value.toLowerCase().trim();
+    const normalizarTexto = texto => String(texto || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLocaleLowerCase('pt-BR');
+    const pesquisa = normalizarTexto(pesquisaLente.value.trim());
 
     const lentesFiltradas = lentes.filter(lente => {
 
-        const nome = lente.nome.toLowerCase();
+        const nome = normalizarTexto(lente.nome);
 
         const caracteristicas = lente.caracteristicas || [];
 
         const correspondePesquisa =
             nome.includes(pesquisa) ||
             caracteristicas.some(caracteristica =>
-                caracteristica.toLowerCase().includes(pesquisa)
+                normalizarTexto(caracteristica).includes(pesquisa)
             );
 
         const correspondeCaracteristica =
@@ -159,7 +172,7 @@ function exibirLentes() {
 
         const imagem = document.createElement('img');
 
-        imagem.src = lente.imagem;
+        imagem.src = normalizarCaminhoImagem(lente.imagem);
         imagem.alt = lente.nome;
 
         imagem.onerror = function () {

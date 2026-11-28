@@ -1,4 +1,5 @@
 const pool = require('../../db');
+const crypto = require('crypto');
 
 const LIMITE_ITENS_PEDIDO = 100;
 const LIMITE_QUANTIDADE_ITEM = 999;
@@ -79,8 +80,8 @@ function obterConfiguracaoPix(env = process.env) {
     };
 }
 
-function gerarPixCopiaECola({ pedidoId, valor, chave, nomeRecebedor, cidade }) {
-    if (!Number.isSafeInteger(Number(pedidoId)) || Number(pedidoId) < 1) {
+function gerarPixCopiaECola({ pedidoId, txid: txidInformado, valor, chave, nomeRecebedor, cidade }) {
+    if (!txidInformado && (!Number.isSafeInteger(Number(pedidoId)) || Number(pedidoId) < 1)) {
         throw new Error('O identificador do pedido para o Pix é inválido.');
     }
 
@@ -89,8 +90,8 @@ function gerarPixCopiaECola({ pedidoId, valor, chave, nomeRecebedor, cidade }) {
         throw new Error('O valor do pedido para o Pix é inválido.');
     }
 
-    const txid = `LUMIERE${Number(pedidoId)}`;
-    if (txid.length > 25) {
+    const txid = txidInformado || `LUMIERE${Number(pedidoId)}`;
+    if (!/^[A-Z0-9]{1,25}$/.test(txid)) {
         throw new Error('O identificador do pedido excede o tamanho permitido no Pix.');
     }
 
@@ -381,6 +382,52 @@ async function sincronizarCarrinho(req, res) {
     }
 }
 
+async function gerarPixPrevia(req, res) {
+    const formaPagamentoId = validarId(req.body && req.body.formaPagamentoId);
+    if (!formaPagamentoId) {
+        return res.status(400).json({ erro: 'Selecione uma forma de pagamento Pix válida.' });
+    }
+
+    try {
+        const formaPagamento = await pool.query(
+            'SELECT nome FROM formas_pagamento WHERE id = $1',
+            [formaPagamentoId]
+        );
+        if (!formaPagamento.rows[0] || !formaPagamento.rows[0].nome
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes('pix')) {
+            return res.status(400).json({ erro: 'A forma de pagamento selecionada não é Pix.' });
+        }
+
+        let configuracaoPix;
+        try {
+            configuracaoPix = obterConfiguracaoPix();
+        } catch (erroConfiguracao) {
+            return res.status(503).json({ erro: erroConfiguracao.message });
+        }
+
+        const resumo = await carregarCarrinho(pool, req.usuarioAutenticado.id, false);
+        if (resumo.erro) return res.status(500).json({ erro: resumo.erro });
+        if (resumo.itens.length === 0) {
+            return res.status(400).json({ erro: 'A sacola está vazia.' });
+        }
+
+        const txid = `L${crypto.randomBytes(8).toString('hex').toUpperCase()}`;
+        const pix = gerarPixCopiaECola({
+            pedidoId: 1,
+            txid,
+            valor: formatarTotal(resumo.totalCentavos),
+            ...configuracaoPix
+        });
+        return res.status(200).json({
+            pix,
+            valorTotal: formatarTotal(resumo.totalCentavos)
+        });
+    } catch (erro) {
+        console.error('Erro ao gerar prévia do Pix:', erro);
+        return res.status(500).json({ erro: 'Não foi possível gerar o QR Code Pix.' });
+    }
+}
+
 async function criarPedido(req, res) {
     const enderecoId = validarId(req.body && req.body.enderecoId);
     const formaPagamentoId = validarId(req.body && req.body.formaPagamentoId);
@@ -431,8 +478,14 @@ async function criarPedido(req, res) {
             .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase();
         let configuracaoPix = null;
+        let txidPix = null;
 
         if (formaPagamentoNormalizada.includes('pix')) {
+            txidPix = typeof req.body?.pixTxid === 'string' ? req.body.pixTxid : '';
+            if (!/^L[A-F0-9]{16}$/.test(txidPix)) {
+                await cliente.query('ROLLBACK');
+                return res.status(400).json({ erro: 'Gere novamente o QR Code Pix antes de confirmar o pedido.' });
+            }
             try {
                 configuracaoPix = obterConfiguracaoPix();
             } catch (erroConfiguracao) {
@@ -459,24 +512,36 @@ async function criarPedido(req, res) {
             });
         }
 
+        if (
+            txidPix &&
+            Number(req.body?.pixValor) !== Number(formatarTotal(resumo.totalCentavos))
+        ) {
+            await cliente.query('ROLLBACK');
+            return res.status(409).json({
+                erro: 'O valor da sacola mudou. Gere novamente o QR Code Pix antes de confirmar.'
+            });
+        }
+
         const pedido = await cliente.query(
             `INSERT INTO pedidos (
                 usuario_id, endereco_id, forma_pagamento_id, valor_total,
-                status_pagamento
+                status_pedido, status_pagamento, pix_txid
              )
-             VALUES ($1, $2, $3, $4, 'aguardando_pagamento')
-             RETURNING id, valor_total, status_pagamento`,
+             VALUES ($1, $2, $3, $4, 'confirmado', 'aguardando_pagamento', $5)
+             RETURNING id, valor_total, status_pedido, status_pagamento`,
             [
                 req.usuarioAutenticado.id,
                 enderecoId,
                 formaPagamentoId,
-                formatarTotal(resumo.totalCentavos)
+                formatarTotal(resumo.totalCentavos),
+                txidPix
             ]
         );
         const pedidoId = pedido.rows[0].id;
         const pix = configuracaoPix
             ? gerarPixCopiaECola({
                 pedidoId,
+                txid: txidPix,
                 valor: pedido.rows[0].valor_total,
                 ...configuracaoPix
             })
@@ -536,6 +601,7 @@ module.exports = {
     listarFormasPagamento,
     obterCarrinho,
     sincronizarCarrinho,
+    gerarPixPrevia,
     criarPedido,
     gerarPixCopiaECola,
     obterConfiguracaoPix

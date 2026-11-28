@@ -9,6 +9,7 @@ const botaoWhatsApp = document.querySelector('#enviar-whatsapp-manutencao');
 const avisoWhatsApp = document.querySelector('#aviso-whatsapp-manutencao');
 const botaoFecharLogin = dialogLogin.querySelector('.fechar-login-digitalizacao');
 const botaoLogin = document.querySelector('#botao-login-manutencao');
+let enviandoSolicitacao = false;
 
 const apiBase = (window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1') &&
@@ -22,7 +23,8 @@ function atualizarBotaoWhatsApp() {
     const prontoParaEnviar = Boolean(
         seletorServico.value &&
         seletorEndereco.value &&
-        !seletorEndereco.disabled
+        !seletorEndereco.disabled &&
+        !enviandoSolicitacao
     );
 
     botaoWhatsApp.disabled = !prontoParaEnviar;
@@ -150,7 +152,7 @@ dialogSolicitacao.addEventListener('click', evento => {
 seletorServico.addEventListener('change', atualizarBotaoWhatsApp);
 seletorEndereco.addEventListener('change', atualizarBotaoWhatsApp);
 
-botaoWhatsApp.addEventListener('click', () => {
+botaoWhatsApp.addEventListener('click', async () => {
     atualizarBotaoWhatsApp();
     if (botaoWhatsApp.disabled) {
         return;
@@ -165,11 +167,22 @@ botaoWhatsApp.addEventListener('click', () => {
         `Endereço para entrega e retirada: ${enderecoEscolhido}`
     ].join('\n');
 
-    window.open(
-        `https://wa.me/5544999176182?text=${encodeURIComponent(mensagem)}`,
-        '_blank',
-        'noopener,noreferrer'
-    );
+    enviandoSolicitacao = true;
+    atualizarBotaoWhatsApp();
+    try {
+        await window.registrarSolicitacaoEabrirWhatsApp({
+            tipoServico: 'manutencao',
+            servicoEscolhido: seletorServico.value,
+            enderecoId: seletorEndereco.value,
+            mensagem
+        });
+    } catch (erro) {
+        console.error('Não foi possível registrar a solicitação de manutenção.', erro);
+        window.alert(erro.message || 'Não foi possível registrar a solicitação.');
+    } finally {
+        enviandoSolicitacao = false;
+        atualizarBotaoWhatsApp();
+    }
 });
 
 botaoLogin.addEventListener('click', () => {
